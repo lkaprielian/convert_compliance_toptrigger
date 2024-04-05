@@ -115,6 +115,29 @@ $left_column = (new CFormList())
 			->setWidth(ZBX_TEXTAREA_INTERFACE_PORT_WIDTH)
 			->setId('port_#{uniqid}')
 	)
+    ->addRow((new CLabel(_('Host triggers'), 'triggerids_#{uniqid}_ms')),
+    (new CMultiSelect([
+        'name' => 'triggerids[]',
+        'object_name' => 'triggers',
+        'data' => array_key_exists('triggers', $data) ? $data['triggers'] : [],
+        'popup' => [
+            'filter_preselect' => [
+                'id' => 'hostids_',
+                'submit_as' => 'hostid'
+            ],
+            'parameters' => [
+                'srctbl' => 'triggers',
+                'srcfld1' => 'triggerid',
+                'dstfrm' => 'zbx_filter',
+                'dstfld1' => 'triggerids_',
+                'monitored_hosts' => true,
+                'with_monitored_triggers' => true
+            ]
+        ]
+    ]))
+        ->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
+        ->setId('triggerids_#{uniqid}')
+    )
 	->addRow(_('Severity'),
 		(new CCheckBoxList('severities'))
 			->setUniqid('#{uniqid}')
