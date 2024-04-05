@@ -272,7 +272,27 @@ if (array_key_exists('render_html', $data)) {
 				}
 			}
 		});
-
+		// Templates multiselect.
+		$('#templateids_' + data.uniqid, container).multiSelectHelper({
+			id: 'templateids_' + data.uniqid,
+			object_name: 'templates',
+			name: 'templateids[]',
+			data: data.filter_view_data.templates_multiselect || [],
+			selectedLimit: 1,
+			popup: {
+				filter_preselect: {
+					id: 'tpl_groupids_' + data.uniqid,
+					submit_as: 'templategroupid'
+				},
+				parameters: {
+					srctbl: 'templates',
+					srcfld1: 'hostid',
+					dstfrm: 'zbx_filter',
+					dstfld1: 'templateids_' + data.uniqid,
+					multiselect: 1
+				}
+			}
+		});
 		// Tags table
 		if (data.tags.length == 0) {
 			data.tags.push({'tag': '', 'value': '', 'operator': <?= TAG_OPERATOR_LIKE ?>, uniqid: data.uniqid});
