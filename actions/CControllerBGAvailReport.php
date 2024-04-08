@@ -47,7 +47,14 @@ abstract class CControllerBGAvailReport extends CController {
 		'inventory' => [],
 		'evaltype' => TAG_EVAL_TYPE_AND_OR,
 		'tags' => [],
-		'show_tags' => SHOW_TAGS_3
+		'show_tags' => SHOW_TAGS_3,
+		'compact_view' => 0,
+		'show_timeline' => ZBX_TIMELINE_ON,
+		'details' => 0,
+		'highlight_row' => 0,
+		'show_opdata' => OPERATIONAL_DATA_SHOW_NONE,
+		'tag_name_format' => TAG_NAME_FULL,
+		'tag_priority' => ''
 	];
 
 	protected function getData(array $filter): array {

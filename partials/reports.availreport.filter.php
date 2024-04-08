@@ -234,53 +234,56 @@ $right_column = (new CFormList())
 			->setAttribute('placeholder', _('comma-separated list'))
 			->setEnabled((int) $data['show_tags'] !== SHOW_TAGS_NONE)
 			->setId('tag_priority_#{uniqid}')
-);
-// 	->addRow(_('Show operational data'), [
-// 		(new CRadioButtonList('show_opdata', (int) $data['show_opdata']))
-// 			->addValue(_('None'), OPERATIONAL_DATA_SHOW_NONE, 'show_opdata_0_#{uniqid}')
-// 			->addValue(_('Separately'), OPERATIONAL_DATA_SHOW_SEPARATELY, 'show_opdata_1_#{uniqid}')
-// 			->addValue(_('With problem name'), OPERATIONAL_DATA_SHOW_WITH_PROBLEM, 'show_opdata_2_#{uniqid}')
-// 			->setModern(true)
-// 			->setEnabled($data['compact_view'] == 0)
-// 			->removeId()
-// 	])
+	)
+	->addRow(_('Show operational data'), [
+		(new CRadioButtonList('show_opdata', (int) $data['show_opdata']))
+			->addValue(_('None'), OPERATIONAL_DATA_SHOW_NONE, 'show_opdata_0_#{uniqid}')
+			->addValue(_('Separately'), OPERATIONAL_DATA_SHOW_SEPARATELY, 'show_opdata_1_#{uniqid}')
+			->addValue(_('With problem name'), OPERATIONAL_DATA_SHOW_WITH_PROBLEM, 'show_opdata_2_#{uniqid}')
+			->setModern(true)
+			->setEnabled($data['compact_view'] == 0)
+			->removeId()
+	])
 
-// 	->addRow(_('Compact view'), [
-// 		(new CCheckBox('compact_view'))
-// 			->setChecked($data['compact_view'] == 1)
-// 			->setUncheckedValue(0)
-// 			->setId('compact_view_#{uniqid}'),
-// 		(new CDiv([
-// 			(new CLabel(_('Show timeline'), 'show_timeline_#{uniqid}'))->addClass(ZBX_STYLE_SECOND_COLUMN_LABEL),
-// 			(new CCheckBox('show_timeline'))
-// 				->setChecked($data['show_timeline'] == ZBX_TIMELINE_ON)
-// 				->setEnabled($data['compact_view'] == 0)
-// 				->setUncheckedValue(0)
-// 				->setId('show_timeline_#{uniqid}')
-// 		]))->addClass(ZBX_STYLE_TABLE_FORMS_SECOND_COLUMN)
-// 	])
-// 	->addRow(_('Show details'), [
-// 		(new CCheckBox('details'))
-// 			->setChecked($data['details'] == 1)
-// 			->setEnabled($data['compact_view'] == 0)
-// 			->setUncheckedValue(0)
-// 			->setId('details_#{uniqid}'),
-// 		(new CDiv([
-// 			(new CLabel(_('Highlight whole row'), 'highlight_row_#{uniqid}'))->addClass(ZBX_STYLE_SECOND_COLUMN_LABEL),
-// 			(new CCheckBox('highlight_row'))
-// 				->setChecked($data['highlight_row'] == 1)
-// 				->setEnabled($data['compact_view'] == 1)
-// 				->setUncheckedValue(0)
-// 				->setId('highlight_row_#{uniqid}')
-// 		]))
-// 			->addClass(ZBX_STYLE_FILTER_HIGHLIGHT_ROW_CB)
-// 			->addClass(ZBX_STYLE_TABLE_FORMS_SECOND_COLUMN)
-// 	]);
+	->addRow(_('Compact view'), [
+		(new CCheckBox('compact_view'))
+			->setChecked($data['compact_view'] == 1)
+			->setUncheckedValue(0)
+			->setId('compact_view_#{uniqid}'),
+		(new CDiv([
+			(new CLabel(_('Show timeline'), 'show_timeline_#{uniqid}'))->addClass(ZBX_STYLE_SECOND_COLUMN_LABEL),
+			(new CCheckBox('show_timeline'))
+				->setChecked($data['show_timeline'] == ZBX_TIMELINE_ON)
+				->setEnabled($data['compact_view'] == 0)
+				->setUncheckedValue(0)
+				->setId('show_timeline_#{uniqid}')
+		]))->addClass(ZBX_STYLE_TABLE_FORMS_SECOND_COLUMN)
+	])
+	->addRow(_('Show details'), [
+		(new CCheckBox('details'))
+			->setChecked($data['details'] == 1)
+			->setEnabled($data['compact_view'] == 0)
+			->setUncheckedValue(0)
+			->setId('details_#{uniqid}'),
+		(new CDiv([
+			(new CLabel(_('Highlight whole row'), 'highlight_row_#{uniqid}'))->addClass(ZBX_STYLE_SECOND_COLUMN_LABEL),
+			(new CCheckBox('highlight_row'))
+				->setChecked($data['highlight_row'] == 1)
+				->setEnabled($data['compact_view'] == 1)
+				->setUncheckedValue(0)
+				->setId('highlight_row_#{uniqid}')
+		]))
+			->addClass(ZBX_STYLE_FILTER_HIGHLIGHT_ROW_CB)
+			->addClass(ZBX_STYLE_TABLE_FORMS_SECOND_COLUMN)
+	]);
 
 $template = (new CDiv())
 	->addClass(ZBX_STYLE_TABLE)
 	->addClass(ZBX_STYLE_FILTER_FORMS)
-	->addItem((new CDiv($left_column))->addClass(ZBX_STYLE_CELL));
+	->addItem([
+		(new CDiv($left_column))->addClass(ZBX_STYLE_CELL),
+		(new CDiv($right_column))->addClass(ZBX_STYLE_CELL)
+	]);
 
 $template = (new CForm('get'))
 	->setName('zbx_filter')
