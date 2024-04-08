@@ -18,7 +18,7 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 	protected function checkInput() {
 		$fields = [
 			'name' =>			'string',
-			'mode' =>			'in '.AVAILABILITY_REPORT_BY_HOST.','.AVAILABILITY_REPORT_BY_TEMPLATE,
+			// 'mode' =>			'in '.AVAILABILITY_REPORT_BY_HOST.','.AVAILABILITY_REPORT_BY_TEMPLATE,
 			// 'tpl_groupids' =>		'array_id',
 			// 'templateids' =>		'array_id',
 			// 'tpl_triggerids' =>		'array_id',
@@ -104,7 +104,7 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 		$filter = $filter_tabs[$profile->selected];
 		$refresh_curl = (new CUrl('zabbix.php'));
 		$filter['action'] = 'availreport.view.refresh';
-		// $filter['action_from_url'] = $this->getAction();
+		$filter['action_from_url'] = $this->getAction();
 		array_map([$refresh_curl, 'setArgument'], array_keys($filter), $filter);
 		// $timeselector_from = $filter['filter_custom_time'] == 0 ? $filter['from'] : $profile->from;
 		// $timeselector_to = $filter['filter_custom_time'] == 0 ? $filter['to'] : $profile->to;
