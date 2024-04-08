@@ -141,14 +141,14 @@ foreach ($data['inventory'] as $field) {
 
 	$i++;
 }
-// $filter_inventory_table->addRow(
-// 	(new CCol(
-// 		(new CButton('inventory_add', _('Add')))
-// 			->addClass(ZBX_STYLE_BTN_LINK)
-// 			->addClass('element-table-add')
-// 			->removeId()
-// 	))->setColSpan(3)
-// );
+$filter_inventory_table->addRow(
+	(new CCol(
+		(new CButton('inventory_add', _('Add')))
+			->addClass(ZBX_STYLE_BTN_LINK)
+			->addClass('element-table-add')
+			->removeId()
+	))->setColSpan(3)
+);
 
 // $filter_tags_table = new CTable();
 // $filter_tags_table->setId('filter-tags_#{uniqid}');
