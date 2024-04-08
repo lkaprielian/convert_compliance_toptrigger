@@ -55,6 +55,9 @@ abstract class CControllerBGAvailReport extends CController {
 		'show_opdata' => OPERATIONAL_DATA_SHOW_NONE,
 		'tag_name_format' => TAG_NAME_FULL,
 		'tag_priority' => ''
+		// 'groupids' =>				'array_id',
+		// 'hostids' =>				'array_id',
+		// 'triggerids' =>				'array_id',
 	];
 
 	protected function getData(array $filter): array {
