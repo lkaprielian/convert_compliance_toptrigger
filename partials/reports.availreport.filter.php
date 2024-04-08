@@ -315,57 +315,57 @@ if (array_key_exists('render_html', $data)) {
 	->addItem($template)
 	->show();
 
-// (new CTemplateTag('filter-inventory-row'))
-// 	->addItem(
-// 		(new CRow([
-// 			(new CSelect('inventory[#{rowNum}][field]'))
-// 				->addOptions(CSelect::createOptionsFromArray($inventories)),
-// 			(new CTextBox('inventory[#{rowNum}][value]', '#{value}'))
-// 				->removeId()
-// 				->setWidth(ZBX_TEXTAREA_FILTER_SMALL_WIDTH),
-// 			(new CCol(
-// 				(new CButton('inventory[#{rowNum}][remove]', _('Remove')))
-// 					->addClass(ZBX_STYLE_BTN_LINK)
-// 					->addClass('element-table-remove')
-// 					->removeId()
-// 			))->addClass(ZBX_STYLE_NOWRAP)
-// 		]))->addClass('form_row')
-// 	)
-// 	->show();
+(new CTemplateTag('filter-inventory-row'))
+	->addItem(
+		(new CRow([
+			(new CSelect('inventory[#{rowNum}][field]'))
+				->addOptions(CSelect::createOptionsFromArray($inventories)),
+			(new CTextBox('inventory[#{rowNum}][value]', '#{value}'))
+				->removeId()
+				->setWidth(ZBX_TEXTAREA_FILTER_SMALL_WIDTH),
+			(new CCol(
+				(new CButton('inventory[#{rowNum}][remove]', _('Remove')))
+					->addClass(ZBX_STYLE_BTN_LINK)
+					->addClass('element-table-remove')
+					->removeId()
+			))->addClass(ZBX_STYLE_NOWRAP)
+		]))->addClass('form_row')
+	)
+	->show();
 
-// (new CTemplateTag('filter-tag-row-tmpl'))
-// 	->addItem(
-// 		(new CRow([
-// 			(new CTextBox('tags[#{rowNum}][tag]', '#{tag}'))
-// 				->setAttribute('placeholder', _('tag'))
-// 				->removeId()
-// 				->setWidth(ZBX_TEXTAREA_FILTER_SMALL_WIDTH),
-// 			(new CSelect('tags[#{rowNum}][operator]'))
-// 				->addOptions(CSelect::createOptionsFromArray([
-// 					TAG_OPERATOR_EXISTS => _('Exists'),
-// 					TAG_OPERATOR_EQUAL => _('Equals'),
-// 					TAG_OPERATOR_LIKE => _('Contains'),
-// 					TAG_OPERATOR_NOT_EXISTS => _('Does not exist'),
-// 					TAG_OPERATOR_NOT_EQUAL => _('Does not equal'),
-// 					TAG_OPERATOR_NOT_LIKE => _('Does not contain')
-// 				]))
-// 				->setValue(TAG_OPERATOR_LIKE)
-// 				->setFocusableElementId('tags-#{rowNum}#{uniqid}-operator-select')
-// 				->setId('tags_#{rowNum}#{uniqid}_operator'),
-// 			(new CTextBox('tags[#{rowNum}][value]', '#{value}'))
-// 				->setAttribute('placeholder', _('value'))
-// 				->setId('tags_#{rowNum}#{uniqid}_value')
-// 				->setWidth(ZBX_TEXTAREA_FILTER_SMALL_WIDTH),
-// 			(new CCol(
-// 				(new CButton('tags[#{rowNum}][remove]', _('Remove')))
-// 					->removeId()
-// 					->addClass(ZBX_STYLE_BTN_LINK)
-// 					->addClass('element-table-remove')
-// 					->removeId()
-// 			))->addClass(ZBX_STYLE_NOWRAP)
-// 		]))->addClass('form_row')
-// 	)
-// 	->show();
+(new CTemplateTag('filter-tag-row-tmpl'))
+	->addItem(
+		(new CRow([
+			(new CTextBox('tags[#{rowNum}][tag]', '#{tag}'))
+				->setAttribute('placeholder', _('tag'))
+				->removeId()
+				->setWidth(ZBX_TEXTAREA_FILTER_SMALL_WIDTH),
+			(new CSelect('tags[#{rowNum}][operator]'))
+				->addOptions(CSelect::createOptionsFromArray([
+					TAG_OPERATOR_EXISTS => _('Exists'),
+					TAG_OPERATOR_EQUAL => _('Equals'),
+					TAG_OPERATOR_LIKE => _('Contains'),
+					TAG_OPERATOR_NOT_EXISTS => _('Does not exist'),
+					TAG_OPERATOR_NOT_EQUAL => _('Does not equal'),
+					TAG_OPERATOR_NOT_LIKE => _('Does not contain')
+				]))
+				->setValue(TAG_OPERATOR_LIKE)
+				->setFocusableElementId('tags-#{rowNum}#{uniqid}-operator-select')
+				->setId('tags_#{rowNum}#{uniqid}_operator'),
+			(new CTextBox('tags[#{rowNum}][value]', '#{value}'))
+				->setAttribute('placeholder', _('value'))
+				->setId('tags_#{rowNum}#{uniqid}_value')
+				->setWidth(ZBX_TEXTAREA_FILTER_SMALL_WIDTH),
+			(new CCol(
+				(new CButton('tags[#{rowNum}][remove]', _('Remove')))
+					->removeId()
+					->addClass(ZBX_STYLE_BTN_LINK)
+					->addClass('element-table-remove')
+					->removeId()
+			))->addClass(ZBX_STYLE_NOWRAP)
+		]))->addClass('form_row')
+	)
+	->show();
 
 ?>
 <script type="text/javascript">
