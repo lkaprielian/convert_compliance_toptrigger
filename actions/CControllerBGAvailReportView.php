@@ -138,8 +138,8 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 		$response = new CControllerResponseData($data);
 		$response->setTitle(_('Problems'));
 
-		if ($data['action'] === 'problem.view.csv') {
-			$response->setFileName('zbx_problems_export.csv');
+		if ($data['action'] === 'availreport.view.csv') {
+			$response->setFileName('zbx_availability_report_export.csv');
 		}
 
 		$this->setResponse($response);
