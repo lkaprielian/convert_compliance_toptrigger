@@ -21,22 +21,34 @@ abstract class CControllerBGAvailReport extends CController {
 
 
 
-	// Filter fields default values.
 	const FILTER_FIELDS_DEFAULT = [
-		'name' => '',
-		'mode' => AVAILABILITY_REPORT_BY_TEMPLATE,
-		'tpl_groupids' => [],
-		'templateids' => [],
-		'tpl_triggerids' => [],
-		'triggerids' => [],
-		'hostgroupids' => [],
+		'show' => TRIGGERS_OPTION_RECENT_PROBLEM,
+		'groupids' => [],
 		'hostids' => [],
-		'only_with_problems' => 1,
-        'page' => null,
+		'triggerids' => [],
+		'name' => '',
+		'severities' => [],
+		'age_state' => 0,
+		'age' => 14,
+		'inventory' => [],
+		'evaltype' => TAG_EVAL_TYPE_AND_OR,
+		'tags' => [],
+		'show_tags' => SHOW_TAGS_3,
+		'show_symptoms' => 0,
+		'show_suppressed' => 0,
+		'unacknowledged' => 0,
+		'compact_view' => 0,
+		'show_timeline' => ZBX_TIMELINE_ON,
+		'details' => 0,
+		'highlight_row' => 0,
+		'show_opdata' => OPERATIONAL_DATA_SHOW_NONE,
+		'tag_name_format' => TAG_NAME_FULL,
+		'tag_priority' => '',
+		'page' => null,
+		'sort' => 'clock',
+		'sortorder' => ZBX_SORT_DOWN,
 		'from' => '',
-		'to' => '',
-		'sort' => 'name',
-		'sortorder' => ZBX_SORT_DOWN
+		'to' => ''
 	];
 
 	protected function getData(array $filter): array {
