@@ -1,218 +1,284 @@
 <?php
+/*
+** Zabbix
+** Copyright (C) 2001-2021 Zabbix SIA
+**
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation; either version 2 of the License, or
+** (at your option) any later version.
+**
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+** GNU General Public License for more details.
+**
+** You should have received a copy of the GNU General Public License
+** along with this program; if not, write to the Free Software
+** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+**/
+
 
 /**
  * @var CView $this
  */
+
 ?>
 <script type="text/javascript">
-	jQuery(function($) {
-		function availreportPage() {
-			let filter_options = <?= json_encode($data['filter_options']) ?>;
-			this.refresh_url = '<?= $data['refresh_url'] ?>';
-			this.refresh_interval = <?= $data['refresh_interval'] ?>;
-			this.running = false;
-			this.timeout = null;
-			this.deferred = null;
+	const view = {
+		host_view_form: null,
+		filter: null,
+		refresh_url: null,
+		refresh_simple_url: null,
+		refresh_interval: null,
+		refresh_counters: null,
+		running: false,
+		timeout: null,
+		deferred: null,
+		applied_filter_groupids: [],
+		_refresh_message_box: null,
+		_popup_message_box: null,
 
-			if (filter_options) {
-				this.refresh_counters = this.createCountersRefresh(1);
-				this.filter = new CTabFilter($('#reports_availreport_filter')[0], filter_options);
-				this.filter.on(TABFILTER_EVENT_URLSET, (ev) => {
-					let url = new Curl('', false);
+		init({filter_options, refresh_url, refresh_interval, applied_filter_groupids}) {
+			this.refresh_url = new Curl(refresh_url, false);
+			this.refresh_interval = refresh_interval;
+			this.applied_filter_groupids = applied_filter_groupids;
 
-					url.setArgument('action', 'availreport.view.refresh');
-					this.refresh_url = url.getUrl();
-					this.unscheduleRefresh();
-					this.refresh();
+			const url = new Curl('zabbix.php', false);
+			url.setArgument('action', 'availreport.view.refresh');
+			this.refresh_simple_url = url.getUrl();
 
-					var filter_item = this.filter._active_item;
+			this.initTabFilter(filter_options);
 
-					if (this.filter._active_item.hasCounter()) {
-						$.post('zabbix.php', {
-							action: 'availreport.view.refresh',
-							filter_counters: 1,
-							counter_index: filter_item._index
-						}).done((json) => {
-							if (json.filter_counters) {
-								filter_item.updateCounter(json.filter_counters.pop());
-							}
-						});
-					}
-				});
+			this.host_view_form = $('form[name=host_view]');
+			this.running = true;
+			this.refresh();
+		},
+
+		initTabFilter(filter_options) {
+			if (!filter_options) {
+				return;
 			}
-		}
 
-		availreportPage.prototype = {
-			createCountersRefresh: function(timeout) {
-				if (this.refresh_counters) {
-					clearTimeout(this.refresh_counters);
-					this.refresh_counters = null;
+			this.refresh_counters = this.createCountersRefresh(1);
+			this.filter = new CTabFilter($('#monitoring_host_filter')[0], filter_options);
+			this.filter.on(TABFILTER_EVENT_URLSET, () => {
+				this.reloadPartialAndTabCounters();
+			});
+		},
+
+		createCountersRefresh(timeout) {
+			if (this.refresh_counters) {
+				clearTimeout(this.refresh_counters);
+				this.refresh_counters = null;
+			}
+
+			return setTimeout(() => this.getFiltersCounters(), timeout);
+		},
+
+		getFiltersCounters() {
+			return $.post(this.refresh_simple_url, {
+				filter_counters: 1
+			})
+			.done((json) => {
+				if (json.filter_counters) {
+					this.filter.updateCounters(json.filter_counters);
 				}
+			})
+			.always(() => {
+				if (this.refresh_interval > 0) {
+					this.refresh_counters = this.createCountersRefresh(this.refresh_interval);
+				}
+			});
+		},
 
-				return setTimeout(() => this.getFiltersCounters(), timeout);
-			},
-			getFiltersCounters: function() {
-				return $.post('zabbix.php', {
-						action: 'availreport.view.refresh',
-						filter_counters: 1
+		reloadPartialAndTabCounters() {
+			this.refresh_url = new Curl('', false);
+
+			this.unscheduleRefresh();
+			this.refresh();
+
+			// Filter is not present in Kiosk mode.
+			if (this.filter) {
+				const filter_item = this.filter._active_item;
+
+				if (this.filter._active_item.hasCounter()) {
+					$.post(this.refresh_simple_url, {
+						filter_counters: 1,
+						counter_index: filter_item._index
 					}).done((json) => {
 						if (json.filter_counters) {
-							this.filter.updateCounters(json.filter_counters);
-						}
-					}).always(() => {
-						if (this.refresh_interval >= 0) {
-							this.refresh_counters = this.createCountersRefresh(this.refresh_interval);
+							filter_item.updateCounter(json.filter_counters.pop());
 						}
 					});
-			},
-			getCurrentForm: function() {
-				return $('form[name=availreport_view]');
-			},
-			addMessages: function(messages) {
-				$('.wrapper main').before(messages);
-			},
-			removeMessages: function() {
-				$('.wrapper .msg-bad').remove();
-			},
-			refresh: function() {
-				// Update export_csv url according to what's in filter fields
-				const export_csv_url = new URL(this.refresh_url, 'http://example.com');
-				for(var key of export_csv_url.searchParams.keys()) {
-					if (key == 'action') {
-						export_csv_url.searchParams.set(key, 'availreport.view.csv');
-					}
 				}
-				var csv_url=export_csv_url.pathname.slice(1) + '?' + export_csv_url.searchParams.toString();
-				var export_button = document.getElementById("export_csv");
-				export_button.setAttribute("data-url", csv_url);
+			}
+		},
 
-				this.setLoading();
+		_addRefreshMessage(messages) {
+			this._removeRefreshMessage();
 
-				this.deferred = $.getJSON(this.refresh_url);
+			this._refresh_message_box = $($.parseHTML(messages));
+			addMessage(this._refresh_message_box);
+		},
 
-				return this.bindDataEvents(this.deferred);
-			},
-			setLoading: function() {
-				//this.getCurrentForm().addClass('is-loading is-loading-fadein delayed-15s');
-				$('div[id=reports_availreport_filter]').addClass('is-loading is-loading-fadein');
-			},
-			clearLoading: function() {
-				//this.getCurrentForm().removeClass('is-loading is-loading-fadein delayed-15s');
-				$('div[id=reports_availreport_filter]').removeClass('is-loading is-loading-fadein');
-			},
-			doRefresh: function(body) {
-				this.getCurrentForm().replaceWith(body);
-			},
-			bindDataEvents: function(deferred) {
-				var that = this;
+		_removeRefreshMessage() {
+			if (this._refresh_message_box !== null) {
+				this._refresh_message_box.remove();
+				this._refresh_message_box = null;
+			}
+		},
 
-				deferred
-					.done(function(response) {
-						that.onDataDone.call(that, response);
-					})
-					.fail(function(jqXHR) {
-						that.onDataFail.call(that, jqXHR);
-					})
-					.always(this.onDataAlways.bind(this));
+		_addPopupMessage(message_box) {
+			this._removePopupMessage();
 
-				return deferred;
-			},
-			onDataDone: function(response) {
-				this.clearLoading();
-				this.removeMessages();
-				this.doRefresh(response.body);
+			this._popup_message_box = message_box;
+			addMessage(this._popup_message_box);
+		},
 
-				if ('messages' in response) {
-					this.addMessages(response.messages);
-				}
-			},
-			onDataFail: function(jqXHR) {
-				// Ignore failures caused by page unload.
-				if (jqXHR.status == 0) {
-					return;
-				}
+		_removePopupMessage() {
+			if (this._popup_message_box !== null) {
+				this._popup_message_box.remove();
+				this._popup_message_box = null;
+			}
+		},
 
-				this.clearLoading();
+		refresh() {
+			this.setLoading();
 
-				var messages = $(jqXHR.responseText).find('.msg-global');
+			const params = this.refresh_url.getArgumentsObject();
+			const exclude = ['action', 'filter_src', 'filter_show_counter', 'filter_custom_time', 'filter_name'];
+			const post_data = Object.keys(params)
+				.filter(key => !exclude.includes(key))
+				.reduce((post_data, key) => {
+					post_data[key] = (typeof params[key] === 'object')
+						? [...params[key]].filter(i => i)
+						: params[key];
+					return post_data;
+				}, {});
 
-				if (messages.length) {
-					this.getCurrentForm().html(messages);
-				}
-				else {
-					this.getCurrentForm().html(jqXHR.responseText);
-				}
-			},
-			onDataAlways: function() {
-				if (this.running) {
-					this.deferred = null;
-					this.scheduleRefresh();
-				}
-			},
-			scheduleRefresh: function() {
-				this.unscheduleRefresh();
+			this.deferred = $.ajax({
+				url: this.refresh_simple_url,
+				data: post_data,
+				type: 'post',
+				dataType: 'json'
+			});
 
-				if (this.refresh_interval > 0) {
-					this.timeout = setTimeout((function() {
-						this.timeout = null;
-						this.refresh();
-					}).bind(this), this.refresh_interval);
-				}
-			},
-			unscheduleRefresh: function() {
-				if (this.timeout !== null) {
-					clearTimeout(this.timeout);
+			return this.bindDataEvents(this.deferred);
+		},
+
+		setLoading() {
+			this.host_view_form.addClass('is-loading is-loading-fadein delayed-15s');
+		},
+
+		clearLoading() {
+			this.host_view_form.removeClass('is-loading is-loading-fadein delayed-15s');
+		},
+
+		bindDataEvents(deferred) {
+			deferred
+				.done((response) => {
+					this.onDataDone.call(this, response);
+				})
+				.fail((jqXHR) => {
+					this.onDataFail.call(this, jqXHR);
+				})
+				.always(this.onDataAlways.bind(this));
+
+			return deferred;
+		},
+
+		onDataDone(response) {
+			this.clearLoading();
+			this._removeRefreshMessage();
+			this.host_view_form.replaceWith(response.body);
+			this.host_view_form = $('form[name=host_view]');
+
+			if ('groupids' in response) {
+				this.applied_filter_groupids = response.groupids;
+			}
+
+			if ('messages' in response) {
+				this._addRefreshMessage(response.messages);
+			}
+		},
+
+		onDataFail(jqXHR) {
+			// Ignore failures caused by page unload.
+			if (jqXHR.status == 0) {
+				return;
+			}
+
+			this.clearLoading();
+
+			const messages = $(jqXHR.responseText).find('.msg-global');
+
+			if (messages.length) {
+				this.host_view_form.html(messages);
+			}
+			else {
+				this.host_view_form.html(jqXHR.responseText);
+			}
+		},
+
+		onDataAlways() {
+			if (this.running) {
+				this.deferred = null;
+				this.scheduleRefresh();
+			}
+		},
+
+		scheduleRefresh() {
+			this.unscheduleRefresh();
+
+			if (this.refresh_interval > 0) {
+				this.timeout = setTimeout((function () {
 					this.timeout = null;
-				}
-
-				if (this.deferred) {
-					this.deferred.abort();
-				}
-			},
-			start: function() {
-				this.running = true;
-				this.refresh();
+					this.refresh();
+				}).bind(this), this.refresh_interval);
 			}
-		};
+		},
 
-		window.availreport_page = new availreportPage();
-		window.availreport_page.start();
-	});
-
-	jQuery.subscribe('timeselector.rangeupdate', function(e, data) {
-		if (window.availreport_page) {
-			const url = new URL(window.availreport_page.refresh_url, 'http://example.com');
-			for(var key of url.searchParams.keys()) {
-				if (key == 'from' || key == 'to') {
-					url.searchParams.set(key, data[key]);
-				}
+		unscheduleRefresh() {
+			if (this.timeout !== null) {
+				clearTimeout(this.timeout);
+				this.timeout = null;
 			}
 
-			window.availreport_page.refresh_url=url.pathname.slice(1) + '?' + url.searchParams.toString();
-			window.availreport_page.refresh();
-		}
-	});
+			if (this.deferred) {
+				this.deferred.abort();
+			}
+		},
 
-	const view = {
-		editHost(hostid) {
-			const host_data = {hostid};
+		createHost() {
+			const host_data = this.applied_filter_groupids
+				? {groupids: this.applied_filter_groupids}
+				: {};
 
 			this.openHostPopup(host_data);
 		},
 
+		editHost(hostid) {
+			this.openHostPopup({hostid});
+		},
+
 		openHostPopup(host_data) {
+			this._removePopupMessage();
+
 			const original_url = location.href;
 			const overlay = PopUp('popup.host.edit', host_data, {
 				dialogueid: 'host_edit',
-				dialogue_class: 'modal-popup-large',
-				prevent_navigation: true
+				dialogue_class: 'modal-popup-large'
 			});
+
+			this.unscheduleRefresh();
 
 			overlay.$dialogue[0].addEventListener('dialogue.create', this.events.hostSuccess, {once: true});
 			overlay.$dialogue[0].addEventListener('dialogue.update', this.events.hostSuccess, {once: true});
 			overlay.$dialogue[0].addEventListener('dialogue.delete', this.events.hostSuccess, {once: true});
 			overlay.$dialogue[0].addEventListener('overlay.close', () => {
 				history.replaceState({}, '', original_url);
+				this.scheduleRefresh();
 			}, {once: true});
 		},
 
@@ -221,14 +287,17 @@
 				const data = e.detail;
 
 				if ('success' in data) {
-					postMessageOk(data.success.title);
+					const title = data.success.title;
+					let messages = [];
 
 					if ('messages' in data.success) {
-						postMessageDetails('success', data.success.messages);
+						messages = data.success.messages;
 					}
+
+					view._addPopupMessage(makeMessageBox('good', messages, title));
 				}
 
-				location.href = location.href;
+				view.reloadPartialAndTabCounters();
 			}
 		}
 	};
