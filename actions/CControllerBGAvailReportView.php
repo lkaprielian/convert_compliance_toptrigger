@@ -19,6 +19,7 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 		$fields = [
 			'name' =>			'string',
 			'mode' =>			'in '.AVAILABILITY_REPORT_BY_HOST.','.AVAILABILITY_REPORT_BY_TEMPLATE,
+			'show' =>					'in '.TRIGGERS_OPTION_RECENT_PROBLEM.','.TRIGGERS_OPTION_IN_PROBLEM.','.TRIGGERS_OPTION_ALL,
 			'tpl_groupids' =>		'array_id',
 			'templateids' =>		'array_id',
 			'tpl_triggerids' =>		'array_id',

@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-$filter_column = (new CFormList())
+$left_column = (new CFormList())
 	->addRow(_('Show'),
 		(new CRadioButtonList('show', (int) $data['show']))
 			->addValue(_('Recent problems'), TRIGGERS_OPTION_RECENT_PROBLEM, 'show_1#{uniqid}')
@@ -280,7 +280,7 @@ $filter_column = (new CFormList())
 $template = (new CDiv())
 	->addClass(ZBX_STYLE_TABLE)
 	->addClass(ZBX_STYLE_FILTER_FORMS)
-	->addItem((new CDiv($filter_column))->addClass(ZBX_STYLE_CELL));
+	->addItem((new CDiv($left_column))->addClass(ZBX_STYLE_CELL));
 
 $template = (new CForm('get'))
 	->setName('zbx_filter')
