@@ -93,16 +93,16 @@ if ($data['age_state'] == 0) {
 	$filter_age->setAttribute('disabled', 'disabled');
 }
 
-// $left_column
-// 	->addRow(_('Age less than'), [
-// 		(new CCheckBox('age_state'))
-// 			->setChecked($data['age_state'] == 1)
-// 			->setUncheckedValue(0)
-// 			->setId('age_state_#{uniqid}'),
-// 		$filter_age,
-// 		(new CDiv())->addClass(ZBX_STYLE_FORM_INPUT_MARGIN),
-// 		_('days')
-// 	])
+$left_column
+	->addRow(_('Age less than'), [
+		(new CCheckBox('age_state'))
+			->setChecked($data['age_state'] == 1)
+			->setUncheckedValue(0)
+			->setId('age_state_#{uniqid}'),
+		$filter_age,
+		(new CDiv())->addClass(ZBX_STYLE_FORM_INPUT_MARGIN),
+		_('days')
+	]);
 // 	->addRow(_('Show symptoms'), [
 // 		(new CCheckBox('show_symptoms'))
 // 			->setChecked($data['show_symptoms'] == 1)
