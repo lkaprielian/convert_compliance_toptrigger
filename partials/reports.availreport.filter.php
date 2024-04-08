@@ -9,24 +9,43 @@ $left_column = (new CFormList())
 			->setId('show_#{uniqid}')
 			->setModern(true)
 	)
+	// ->addRow((new CLabel(_('Host groups'), 'groupids_#{uniqid}_ms')),
+	// 	(new CMultiSelect([
+	// 		'name' => 'groupids[]',
+	// 		'object_name' => 'hostGroup',
+	// 		'data' => array_key_exists('groups', $data) ? $data['groups'] : [],
+	// 		'popup' => [
+	// 			'parameters' => [
+	// 				'srctbl' => 'host_groups',
+	// 				'srcfld1' => 'groupid',
+	// 				'dstfrm' => 'zbx_filter',
+	// 				'dstfld1' => 'groupids_',
+	// 				'with_hosts' => true,
+	// 				'enrich_parent_groups' => true
+	// 			]
+	// 		]
+	// 	]))
+	// 		->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
+	// 		->setId('groupids_#{uniqid}')
+	// )
 	->addRow((new CLabel(_('Host groups'), 'groupids_#{uniqid}_ms')),
 		(new CMultiSelect([
-			'name' => 'groupids[]',
+			'name' => 'hostgroupids[]',
 			'object_name' => 'hostGroup',
-			'data' => array_key_exists('groups', $data) ? $data['groups'] : [],
+			'data' => array_key_exists('hostgroups_multiselect', $data) ? $data['hostgroups_multiselect'] : [],
 			'popup' => [
 				'parameters' => [
 					'srctbl' => 'host_groups',
 					'srcfld1' => 'groupid',
 					'dstfrm' => 'zbx_filter',
-					'dstfld1' => 'groupids_',
-					'with_hosts' => true,
+					'dstfld1' => 'hostgroupids_',
+					'real_hosts' => true,
 					'enrich_parent_groups' => true
 				]
 			]
 		]))
 			->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
-			->setId('groupids_#{uniqid}')
+			->setId('hostgroupids_#{uniqid}')
 	)
 	->addRow((new CLabel(_('Hosts'), 'hostids_#{uniqid}_ms')),
 		(new CMultiSelect([
@@ -481,23 +500,46 @@ if (array_key_exists('render_html', $data)) {
 			new CTagFilterItem(row);
 		});
 
+		// // Host groups multiselect.
+		// $('#groupids_' + data.uniqid, container).multiSelectHelper({
+		// 	id: 'groupids_' + data.uniqid,
+		// 	object_name: 'hostGroup',
+		// 	name: 'groupids[]',
+		// 	data: data.filter_view_data.groups || [],
+		// 	objectOptions: {
+		// 		with_hosts: 1,
+		// 		enrich_parent_groups: 1
+		// 	},
+		// 	popup: {
+		// 		parameters: {
+		// 			srctbl: 'host_groups',
+		// 			srcfld1: 'groupid',
+		// 			dstfrm: 'zbx_filter',
+		// 			dstfld1: 'groupids_' + data.uniqid,
+		// 			multiselect: 1,
+		// 			real_hosts: 1,
+		// 			enrich_parent_groups: 1
+		// 		}
+		// 	}
+		// });
+
 		// Host groups multiselect.
-		$('#groupids_' + data.uniqid, container).multiSelectHelper({
-			id: 'groupids_' + data.uniqid,
+		$('#hostgroupids_' + data.uniqid, container).multiSelectHelper({
+			id: 'hostgroupids_' + data.uniqid,
 			object_name: 'hostGroup',
-			name: 'groupids[]',
-			data: data.filter_view_data.groups || [],
+			name: 'hostgroupids[]',
+			data: data.filter_view_data.hostgroups_multiselect || [],
 			objectOptions: {
-				with_hosts: 1,
+				real_hosts: 1,
 				enrich_parent_groups: 1
 			},
 			popup: {
 				parameters: {
+					multiselect: '1',
 					srctbl: 'host_groups',
 					srcfld1: 'groupid',
 					dstfrm: 'zbx_filter',
-					dstfld1: 'groupids_' + data.uniqid,
-					multiselect: 1,
+					dstfld1: 'hostgroupids_' + data.uniqid,
 					real_hosts: 1,
 					enrich_parent_groups: 1
 				}
