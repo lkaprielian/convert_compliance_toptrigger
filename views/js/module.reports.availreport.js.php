@@ -16,7 +16,7 @@
 
 			if (filter_options) {
 				this.refresh_counters = this.createCountersRefresh(1);
-				this.filter = new CTabFilter($('#reports_availreport_filter')[0], filter_options);
+				this.filter = new CTabFilter($('#monitoring_problem_filter')[0], filter_options);
 				this.filter.on(TABFILTER_EVENT_URLSET, (ev) => {
 					let url = new Curl('', false);
 
@@ -94,11 +94,11 @@
 			},
 			setLoading: function() {
 				//this.getCurrentForm().addClass('is-loading is-loading-fadein delayed-15s');
-				$('div[id=reports_availreport_filter]').addClass('is-loading is-loading-fadein');
+				$('div[id=monitoring_problem_filter]').addClass('is-loading is-loading-fadein');
 			},
 			clearLoading: function() {
 				//this.getCurrentForm().removeClass('is-loading is-loading-fadein delayed-15s');
-				$('div[id=reports_availreport_filter]').removeClass('is-loading is-loading-fadein');
+				$('div[id=monitoring_problem_filter]').removeClass('is-loading is-loading-fadein');
 			},
 			doRefresh: function(body) {
 				this.getCurrentForm().replaceWith(body);

@@ -25,11 +25,11 @@ abstract class CControllerBGAvailReport extends CController {
 	const FILTER_FIELDS_DEFAULT = [
 		'name' => '',
 		'mode' => AVAILABILITY_REPORT_BY_TEMPLATE,
-		'tpl_groupids' => [],
+		'tpl_hostgroupids' => [],
 		'templateids' => [],
 		'tpl_triggerids' => [],
 		'triggerids' => [],
-		'groupids' => [],
+		'hostgroupids' => [],
 		'hostids' => [],
 		'only_with_problems' => 1,
         'page' => null,
@@ -61,7 +61,7 @@ abstract class CControllerBGAvailReport extends CController {
 
 	protected function getData(array $filter): array {
 
-		$host_group_ids = sizeof($filter['groupids']) > 0 ? $this->getChildGroups($filter['groupids']) : null;
+		$host_group_ids = sizeof($filter['hostgroupids']) > 0 ? $this->getChildGroups($filter['hostgroupids']) : null;
 
 		$generating_csv_flag = 1;
 		if (!array_key_exists('action_from_url', $filter) ||
@@ -79,7 +79,7 @@ abstract class CControllerBGAvailReport extends CController {
 			'output' => ['triggerid', 'description', 'expression', 'value'],
 			'monitored' => true,
 			'triggerids' => sizeof($filter['triggerids']) > 0 ? $filter['triggerids'] : null,
-			'groupids' => $host_group_ids,
+			'hostgroupids' => $host_group_ids,
 			'hostids ' => sizeof($filter['hostids']) > 0 ? $filter['hostids'] : null,
 			'filter' => [
 				'templateid' => sizeof($filter['tpl_triggerids']) > 0 ? $filter['tpl_triggerids'] : null
@@ -134,7 +134,7 @@ abstract class CControllerBGAvailReport extends CController {
 			'selectFunctions' => 'extend',
 			'expandDescription' => true,
 			'monitored' => true,
-			'groupids' => $host_group_ids,
+			'hostgroupids' => $host_group_ids,
 			'preservekeys' => true,
 			'hostids' => sizeof($filter['hostids']) > 0 ? $filter['hostids'] : null,
 			'filter' => [
@@ -212,10 +212,10 @@ abstract class CControllerBGAvailReport extends CController {
 	protected function getAdditionalData($filter): array {
 		$data = [];
 
-		if ($filter['tpl_groupids']) {
+		if ($filter['tpl_hostgroupids']) {
 			$groups = API::HostGroup()->get([
 				'output' => ['groupid', 'name'],
-				'groupids' => $filter['tpl_groupids']
+				'hostgroupids' => $filter['tpl_hostgroupids']
 			]);
 			$data['tpl_groups_multiselect'] = CArrayHelper::renameObjectsKeys(array_values($groups), ['groupid' => 'id']);
 		}
@@ -269,10 +269,10 @@ abstract class CControllerBGAvailReport extends CController {
 			$data['triggers'] = $triggers;
 		}
 
-		if ($filter['groupids']) {
+		if ($filter['hostgroupids']) {
 			$hostgroups = API::HostGroup()->get([
 				'output' => ['groupid', 'name'],
-				'groupids' => $filter['groupids']
+				'hostgroupids' => $filter['hostgroupids']
 			]);
 			$data['hostgroups_multiselect'] = CArrayHelper::renameObjectsKeys(array_values($hostgroups), ['groupid' => 'id']);
 		}
@@ -293,7 +293,7 @@ abstract class CControllerBGAvailReport extends CController {
 		foreach($parent_group_ids as $parent_group_id) {
 			$groups = API::HostGroup()->get([
 				'output' => ['groupid', 'name'],
-				'groupids' => [$parent_group_id]
+				'hostgroupids' => [$parent_group_id]
 			]);
 			$parent_group_name = $groups[0]['name'].'/';
 			$len = strlen($parent_group_name);
