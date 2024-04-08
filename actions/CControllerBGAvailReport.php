@@ -24,7 +24,7 @@ abstract class CControllerBGAvailReport extends CController {
 	// Filter fields default values.
 	const FILTER_FIELDS_DEFAULT = [
 		'name' => '',
-		// 'mode' => AVAILABILITY_REPORT_BY_TEMPLATE,
+		'mode' => AVAILABILITY_REPORT_BY_TEMPLATE,
 		// 'tpl_groupids' => [],
 		// 'templateids' => [],
 		// 'tpl_triggerids' => [],
