@@ -18,12 +18,12 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 	protected function checkInput() {
 		$fields = [
 			'name' =>			'string',
-			'mode' =>			'in '.AVAILABILITY_REPORT_BY_HOST.','.AVAILABILITY_REPORT_BY_TEMPLATE,
-			'tpl_groupids' =>		'array_id',
-			'templateids' =>		'array_id',
-			'tpl_triggerids' =>		'array_id',
+			// 'mode' =>			'in '.AVAILABILITY_REPORT_BY_HOST.','.AVAILABILITY_REPORT_BY_TEMPLATE,
+			// 'tpl_groupids' =>		'array_id',
+			// 'templateids' =>		'array_id',
+			// 'tpl_triggerids' =>		'array_id',
 			'triggerids' =>			'array_id',
-			'hostgroupids' =>		'array_id',
+			'groupids' =>		'array_id',
 			'hostids' =>			'array_id',
 			'filter_reset' =>		'in 1',
 			'only_with_problems' =>		'in 0,1',
