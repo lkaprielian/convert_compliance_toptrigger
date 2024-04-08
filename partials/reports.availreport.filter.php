@@ -224,17 +224,17 @@ $tag_format_line = (new CHorList())
 		->setId('tag_name_format_#{uniqid}')
 	);
 
-// $right_column = (new CFormList())
-// 	->addRow(_('Host inventory'), $filter_inventory_table)
-// 	->addRow(_('Tags'), $filter_tags_table)
-// 	->addRow(_('Show tags'), $tag_format_line)
-// 	->addRow(_('Tag display priority'),
-// 		(new CTextBox('tag_priority', $data['tag_priority']))
-// 			->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
-// 			->setAttribute('placeholder', _('comma-separated list'))
-// 			->setEnabled((int) $data['show_tags'] !== SHOW_TAGS_NONE)
-// 			->setId('tag_priority_#{uniqid}')
-// 	)
+$right_column = (new CFormList())
+	->addRow(_('Host inventory'), $filter_inventory_table)
+	->addRow(_('Tags'), $filter_tags_table)
+	->addRow(_('Show tags'), $tag_format_line)
+	->addRow(_('Tag display priority'),
+		(new CTextBox('tag_priority', $data['tag_priority']))
+			->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
+			->setAttribute('placeholder', _('comma-separated list'))
+			->setEnabled((int) $data['show_tags'] !== SHOW_TAGS_NONE)
+			->setId('tag_priority_#{uniqid}')
+);
 // 	->addRow(_('Show operational data'), [
 // 		(new CRadioButtonList('show_opdata', (int) $data['show_opdata']))
 // 			->addValue(_('None'), OPERATIONAL_DATA_SHOW_NONE, 'show_opdata_0_#{uniqid}')
