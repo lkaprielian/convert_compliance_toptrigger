@@ -150,8 +150,8 @@ $filter_inventory_table->addRow(
 	))->setColSpan(3)
 );
 
-// $filter_tags_table = new CTable();
-// $filter_tags_table->setId('filter-tags_#{uniqid}');
+$filter_tags_table = new CTable();
+$filter_tags_table->setId('filter-tags_#{uniqid}');
 
 // $filter_tags_table->addRow(
 // 	(new CCol(
