@@ -46,7 +46,7 @@
 			this.filter_defaults = filter_defaults;
 
 			const url = new Curl('zabbix.php');
-			url.setArgument('action', 'problem.view.refresh');
+			url.setArgument('action', 'availreport.view.refresh');
 			this.refresh_simple_url = url.getUrl();
 
 			this.initFilter(filter_options);
