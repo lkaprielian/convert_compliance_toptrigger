@@ -54,17 +54,17 @@ abstract class CControllerBGAvailReport extends CController {
 	 *
 	 * @return int
 	 */
-	protected function getCount(array $filter): int {
-		$range_time_parser = new CRangeTimeParser();
-		$range_time_parser->parse($filter['from']);
-		$filter['from'] = $range_time_parser->getDateTime(true)->getTimestamp();
-		$range_time_parser->parse($filter['to']);
-		$filter['to'] = $range_time_parser->getDateTime(false)->getTimestamp();
+	// protected function getCount(array $filter): int {
+	// 	$range_time_parser = new CRangeTimeParser();
+	// 	$range_time_parser->parse($filter['from']);
+	// 	$filter['from'] = $range_time_parser->getDateTime(true)->getTimestamp();
+	// 	$range_time_parser->parse($filter['to']);
+	// 	$filter['to'] = $range_time_parser->getDateTime(false)->getTimestamp();
 
-		$data = CScreenProblem::getData($filter, CSettingsHelper::get(CSettingsHelper::SEARCH_LIMIT));
+	// 	$data = CScreenProblem::getData($filter, CSettingsHelper::get(CSettingsHelper::SEARCH_LIMIT));
 
-		return count($data['problems']);
-	}
+	// 	return count($data['problems']);
+	// }
 
 	protected function getData(array $filter): array {
 
