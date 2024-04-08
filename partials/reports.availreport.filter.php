@@ -86,12 +86,12 @@ $left_column = (new CFormList())
 			->setVertical(true)
 	);
 
-// // $filter_age = (new CNumericBox('age', $data['age'], 3, false, false, false))
-// // 	->setWidth(ZBX_TEXTAREA_NUMERIC_STANDARD_WIDTH)
-// // 	->removeId();
-// // if ($data['age_state'] == 0) {
-// // 	$filter_age->setAttribute('disabled', 'disabled');
-// // }
+$filter_age = (new CNumericBox('age', $data['age'], 3, false, false, false))
+	->setWidth(ZBX_TEXTAREA_NUMERIC_STANDARD_WIDTH)
+	->removeId();
+if ($data['age_state'] == 0) {
+	$filter_age->setAttribute('disabled', 'disabled');
+}
 
 // $left_column
 // 	->addRow(_('Age less than'), [

@@ -39,6 +39,8 @@ abstract class CControllerBGAvailReport extends CController {
 		'sortorder' => ZBX_SORT_DOWN,
 		'show' => TRIGGERS_OPTION_RECENT_PROBLEM,
 		'severities' => [],
+		'age_state' => 0,
+		'age' => 14
 	];
 
 	protected function getData(array $filter): array {
