@@ -14,57 +14,30 @@ use CWebUser;
 abstract class CControllerBGAvailReport extends CController {
 
 	// Filter idx prefix.
-	const FILTER_IDX = 'web.monitoring.problem';
+	const FILTER_IDX = 'web.avail_report.filter';
+	// const FILTER_IDX = 'web.toptriggers.filter';
+	// const FILTER_IDX = 'web.monitoring.host';
+	// const FILTER_IDX = 'web.monitoring.problem';
+
+
 
 	// Filter fields default values.
 	const FILTER_FIELDS_DEFAULT = [
-		'show' => TRIGGERS_OPTION_RECENT_PROBLEM,
-		'groupids' => [],
-		'hostids' => [],
-		'triggerids' => [],
 		'name' => '',
-		'severities' => [],
-		'age_state' => 0,
-		'age' => 14,
-		'inventory' => [],
-		'evaltype' => TAG_EVAL_TYPE_AND_OR,
-		'tags' => [],
-		'show_tags' => SHOW_TAGS_3,
-		'show_symptoms' => 0,
-		'show_suppressed' => 0,
-		'unacknowledged' => 0,
-		'compact_view' => 0,
-		'show_timeline' => ZBX_TIMELINE_ON,
-		'details' => 0,
-		'highlight_row' => 0,
-		'show_opdata' => OPERATIONAL_DATA_SHOW_NONE,
-		'tag_name_format' => TAG_NAME_FULL,
-		'tag_priority' => '',
-		'page' => null,
-		'sort' => 'clock',
-		'sortorder' => ZBX_SORT_DOWN,
+		'mode' => AVAILABILITY_REPORT_BY_TEMPLATE,
+		'tpl_groupids' => [],
+		'templateids' => [],
+		'tpl_triggerids' => [],
+		'triggerids' => [],
+		'hostgroupids' => [],
+		'hostids' => [],
+		'only_with_problems' => 1,
+        'page' => null,
 		'from' => '',
-		'to' => ''
+		'to' => '',
+		'sort' => 'name',
+		'sortorder' => ZBX_SORT_DOWN
 	];
-
-	/**
-	 * Get count of resulting rows for specified filter.
-	 *
-	 * @param array $filter   Filter fields values.
-	 *
-	 * @return int
-	 */
-	// protected function getCount(array $filter): int {
-	// 	$range_time_parser = new CRangeTimeParser();
-	// 	$range_time_parser->parse($filter['from']);
-	// 	$filter['from'] = $range_time_parser->getDateTime(true)->getTimestamp();
-	// 	$range_time_parser->parse($filter['to']);
-	// 	$filter['to'] = $range_time_parser->getDateTime(false)->getTimestamp();
-
-	// 	$data = CScreenProblem::getData($filter, CSettingsHelper::get(CSettingsHelper::SEARCH_LIMIT));
-
-	// 	return count($data['problems']);
-	// }
 
 	protected function getData(array $filter): array {
 
@@ -209,28 +182,48 @@ abstract class CControllerBGAvailReport extends CController {
 		];
 	}
 
-	/**
-	 * Get additional data required for render filter as HTML.
-	 *
-	 * @param array $filter  Filter fields values.
-	 *
-	 * @return array
-	 */
-	protected function getAdditionalData(array $filter): array {
-		$data = [
-			'groups' => [],
-			'hosts' => [],
-			'triggers' => []
-		];
+	protected function cleanInput(array $input): array {
+		if (array_key_exists('filter_reset', $input) && $input['filter_reset']) {
+			return array_intersect_key(['filter_name' => ''], $input);
+		}
+		return $input;
+	}
 
-		// Host groups multiselect.
-		if ($filter['groupids']) {
-			$host_groups = API::HostGroup()->get([
+	protected function getAdditionalData($filter): array {
+		$data = [];
+
+		if ($filter['tpl_groupids']) {
+			$groups = API::HostGroup()->get([
 				'output' => ['groupid', 'name'],
-				'groupids' => $filter['groupids'],
-				'preservekeys' => true
+				'groupids' => $filter['tpl_groupids']
 			]);
-			$data['groups'] = CArrayHelper::renameObjectsKeys($host_groups, ['groupid' => 'id']);
+			$data['tpl_groups_multiselect'] = CArrayHelper::renameObjectsKeys(array_values($groups), ['groupid' => 'id']);
+		}
+
+		if ($filter['templateids']) {
+			$templates= API::Template()->get([
+				'output' => ['templateid', 'name'],
+				'templateids' => $filter['templateids']
+			]);
+			$data['templates_multiselect'] = CArrayHelper::renameObjectsKeys(array_values($templates), ['templateid' => 'id']);
+		}
+
+		if ($filter['tpl_triggerids']) {
+			$triggers = API::Trigger()->get([
+				'output' => ['triggerid', 'description'],
+				'selectHosts' => 'extend',
+				'triggerids' => $filter['tpl_triggerids']
+			]);
+
+			foreach($triggers as &$trigger) {
+				sizeof($trigger['hosts']) > 0 ?
+					$trigger['name'] = $trigger['hosts'][0]['host'] . ': ' . $trigger['description'] :
+					$trigger['name'] = $trigger['description'];
+				unset($trigger['hosts']);
+				unset($trigger['description']);
+			}
+
+			$data['tpl_triggers_multiselect'] = CArrayHelper::renameObjectsKeys(array_values($triggers), ['triggerid' => 'id']);
 		}
 
 		// Triggers multiselect.
@@ -256,86 +249,48 @@ abstract class CControllerBGAvailReport extends CController {
 			$data['triggers'] = $triggers;
 		}
 
-		// Hosts multiselect.
+		if ($filter['hostgroupids']) {
+			$hostgroups = API::HostGroup()->get([
+				'output' => ['groupid', 'name'],
+				'groupids' => $filter['hostgroupids']
+			]);
+			$data['hostgroups_multiselect'] = CArrayHelper::renameObjectsKeys(array_values($hostgroups), ['groupid' => 'id']);
+		}
+
 		if ($filter['hostids']) {
-			$data['hosts'] = CArrayHelper::renameObjectsKeys(API::Host()->get([
+			$hosts = API::Host()->get([
 				'output' => ['hostid', 'name'],
 				'hostids' => $filter['hostids']
-			]), ['hostid' => 'id']);
+			]);
+			$data['hosts_multiselect'] = CArrayHelper::renameObjectsKeys(array_values($hosts), ['hostid' => 'id']);
 		}
 
 		return $data;
 	}
 
-	/**
-	 * Clean and convert passed filter input fields from default values required for HTML presentation.
-	 *
-	 * @param array $input  Filter fields values.
-	 *
-	 * @return array
-	 */
-	protected function cleanInput(array $input): array {
-		if (array_key_exists('tags', $input) && $input['tags']) {
-			$input['tags'] = array_filter($input['tags'], function($tag) {
-				return !($tag['tag'] === '' && $tag['value'] === '');
-			});
-			$input['tags'] = array_values($input['tags']);
-		}
+	protected function getChildGroups($parent_group_ids): array {
+		$all_group_ids = [];
+		foreach($parent_group_ids as $parent_group_id) {
+			$groups = API::HostGroup()->get([
+				'output' => ['groupid', 'name'],
+				'groupids' => [$parent_group_id]
+			]);
+			$parent_group_name = $groups[0]['name'].'/';
+			$len = strlen($parent_group_name);
 
-		if (array_key_exists('inventory', $input) && $input['inventory']) {
-			$input['inventory'] = array_filter($input['inventory'], function($inventory) {
-				return $inventory['value'] !== '';
-			});
-			$input['inventory'] = array_values($input['inventory']);
-		}
+			$groups = API::HostGroup()->get([
+				'output' => ['groupid', 'name'],
+				'search' => ['name' => $parent_group_name],
+				'startSearch' => true
+			]);
 
-		return $input;
-	}
-
-	/**
-	 * Validate input of filter inventory fields.
-	 *
-	 * @return bool
-	 */
-	protected function validateInventory(): bool {
-		if (!$this->hasInput('inventory')) {
-			return true;
-		}
-
-		$ret = true;
-		foreach ($this->getInput('inventory') as $filter_inventory) {
-			if (count($filter_inventory) != 2
-					|| !array_key_exists('field', $filter_inventory) || !is_string($filter_inventory['field'])
-					|| !array_key_exists('value', $filter_inventory) || !is_string($filter_inventory['value'])) {
-				$ret = false;
-				break;
+			$all_group_ids[] = $parent_group_id;
+			foreach ($groups as $group) {
+				if (substr($group['name'], 0, $len) === $parent_group_name) {
+					$all_group_ids[] = $group['groupid'];
+				}
 			}
 		}
-
-		return $ret;
-	}
-
-	/**
-	 * Validate values of filter tags input fields.
-	 *
-	 * @return bool
-	 */
-	protected function validateTags(): bool {
-		if (!$this->hasInput('tags')) {
-			return true;
-		}
-
-		$ret = true;
-		foreach ($this->getInput('tags') as $filter_tag) {
-			if (count($filter_tag) != 3
-					|| !array_key_exists('tag', $filter_tag) || !is_string($filter_tag['tag'])
-					|| !array_key_exists('value', $filter_tag) || !is_string($filter_tag['value'])
-					|| !array_key_exists('operator', $filter_tag) || !is_string($filter_tag['operator'])) {
-				$ret = false;
-				break;
-			}
-		}
-
-		return $ret;
+		return $all_group_ids;
 	}
 }
