@@ -23,7 +23,6 @@ abstract class CControllerBGAvailReport extends CController {
 
 	const FILTER_FIELDS_DEFAULT = [
 		'show' => TRIGGERS_OPTION_RECENT_PROBLEM,
-		'mode' =>			'in '.AVAILABILITY_REPORT_BY_HOST.','.AVAILABILITY_REPORT_BY_TEMPLATE,
 		'groupids' => [],
 		'hostids' => [],
 		'triggerids' => [],
