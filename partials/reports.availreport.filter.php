@@ -76,15 +76,15 @@ $left_column = (new CFormList())
 		(new CTextBox('name', $data['name']))
 			->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
 			->setId('name_#{uniqid}')
-				);
-// 	->addRow(_('Severity'),
-// 		(new CCheckBoxList('severities'))
-// 			->setUniqid('#{uniqid}')
-// 			->setOptions(CSeverityHelper::getSeverities())
-// 			->setChecked($data['severities'])
-// 			->setColumns(3)
-// 			->setVertical(true)
-// 	);
+	)
+	->addRow(_('Severity'),
+		(new CCheckBoxList('severities'))
+			->setUniqid('#{uniqid}')
+			->setOptions(CSeverityHelper::getSeverities())
+			->setChecked($data['severities'])
+			->setColumns(3)
+			->setVertical(true)
+	);
 
 // // $filter_age = (new CNumericBox('age', $data['age'], 3, false, false, false))
 // // 	->setWidth(ZBX_TEXTAREA_NUMERIC_STANDARD_WIDTH)
