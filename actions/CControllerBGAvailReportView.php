@@ -125,7 +125,7 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 				'timeselector' => [
 					'from' => $profile->from,
 					'to' => $profile->to,
-					'disabled' => false
+					'disabled' => ($filter['show'] != TRIGGERS_OPTION_ALL || $filter['filter_custom_time'])
 				] + getTimeselectorActions($profile->from, $profile->to)
 			],
 			'filter_tabs' => $filter_tabs,
