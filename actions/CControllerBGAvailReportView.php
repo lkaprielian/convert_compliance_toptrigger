@@ -110,6 +110,7 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 		// $timeselector_from = $filter['filter_custom_time'] == 0 ? $filter['from'] : $profile->from;
 		// $timeselector_to = $filter['filter_custom_time'] == 0 ? $filter['to'] : $profile->to;
 		
+
 		$data = [
 			'action' => $this->getAction(),
 			'tabfilter_idx' => static::FILTER_IDX,
@@ -122,6 +123,7 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 				'support_custom_time' => 1,
 				'expanded' => $profile->expanded,
 				'page' => $filter['page'],
+				'csrf_token' => CCsrfTokenHelper::get('tabfilter'),
 				'timeselector' => [
 					'from' => $profile->from,
 					'to' => $profile->to,
@@ -130,10 +132,14 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 			],
 			'filter_tabs' => $filter_tabs,
 			'refresh_url' => $refresh_curl->getUrl(),
-			'refresh_interval' => 3600000, //+++1000,
+			'refresh_interval' => CWebUser::getRefresh() * 1000,
+			'inventories' => array_column(getHostInventories(), 'title', 'db_field'),
+			'sort' => $filter['sort'],
+			'sortorder' => $filter['sortorder'],
+			'uncheck' => $this->hasInput('filter_reset'),
 			'page' => $this->getInput('page', 1)
-		] + $this->getData($filter);
-
+		];
+		
 		$response = new CControllerResponseData($data);
 		$response->setTitle(_('Availability report'));
 
