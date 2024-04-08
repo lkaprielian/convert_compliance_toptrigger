@@ -66,33 +66,32 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 		return $ret;
 	}
 
-	protected function checkPermissions() {
-		return $this->checkAccess(CRoleHelper::UI_REPORTS_AVAILABILITY_REPORT);
+	protected function checkPermissions(): bool {
+		return $this->checkAccess(CRoleHelper::UI_MONITORING_PROBLEMS);
 	}
 
 	protected function doAction() {
 
 		$filter_tabs = [];
+		$profile = (new CTabFilterProfile(static::FILTER_IDX, static::FILTER_FIELDS_DEFAULT))->read();
+		if ($this->hasInput('filter_reset')) {
+			$profile->reset();
+		}
+		elseif ($this->hasInput('filter_set')) {
+			$profile->setTabFilter(0, ['filter_name' => ''] + $this->cleanInput($this->getInputAll()));
+			$profile->update();
+		}
+		else {
+			$profile->setInput($this->cleanInput($this->getInputAll()));
+		}
 
-		// $profile = (new CTabFilterProfile(static::FILTER_IDX, static::FILTER_FIELDS_DEFAULT))->read();
-		// if ($this->hasInput('filter_reset')) {
-		// 	$profile->reset();
-		// }
-
-		$filter_tabs = [];
-		$profile = (new CTabFilterProfile(static::FILTER_IDX, static::FILTER_FIELDS_DEFAULT))
-			->read()
-			->setInput($this->cleanInput($this->getInputAll()));
-			
-		// elseif ($this->hasInput('filter_set')) {
-		// 	$profile->setTabFilter(0, ['filter_name' => ''] + $this->cleanInput($this->getInputAll()));
-		// 	$profile->update();
-		// }
-		// else {
-		// 	$profile->setInput($this->cleanInput($this->getInputAll()));
-		// }
 
 		foreach ($profile->getTabsWithDefaults() as $index => $filter_tab) {
+			if ($filter_tab['filter_custom_time']) {
+				$filter_tab['show'] = TRIGGERS_OPTION_ALL;
+				$filter_tab['filter_src']['show'] = TRIGGERS_OPTION_ALL;
+			}
+
 			if ($index == $profile->selected) {
 				// Initialize multiselect data for filter_scr to allow tabfilter correctly handle unsaved state.
 				$filter_tab['filter_src']['filter_view_data'] = $this->getAdditionalData($filter_tab['filter_src']);
