@@ -122,25 +122,25 @@ $left_column
 			->setId('unacknowledged_#{uniqid}')
 	]);
 
-// $filter_inventory_table = new CTable();
-// $filter_inventory_table->setId('filter-inventory_#{uniqid}');
-// $inventories = array_column(getHostInventories(), 'title', 'db_field');
-// $i = 0;
-// foreach ($data['inventory'] as $field) {
-// 	$filter_inventory_table->addRow([
-// 		(new CSelect('inventory['.$i.'][field]'))
-// 			->setValue($field['field'])
-// 			->addOptions(CSelect::createOptionsFromArray($inventories)),
-// 		(new CTextBox('inventory['.$i.'][value]', $field['value']))->setWidth(ZBX_TEXTAREA_FILTER_SMALL_WIDTH),
-// 		(new CCol(
-// 			(new CButton('inventory['.$i.'][remove]', _('Remove')))
-// 				->addClass(ZBX_STYLE_BTN_LINK)
-// 				->addClass('element-table-remove')
-// 		))->addClass(ZBX_STYLE_NOWRAP)
-// 	], 'form_row');
+$filter_inventory_table = new CTable();
+$filter_inventory_table->setId('filter-inventory_#{uniqid}');
+$inventories = array_column(getHostInventories(), 'title', 'db_field');
+$i = 0;
+foreach ($data['inventory'] as $field) {
+	$filter_inventory_table->addRow([
+		(new CSelect('inventory['.$i.'][field]'))
+			->setValue($field['field'])
+			->addOptions(CSelect::createOptionsFromArray($inventories)),
+		(new CTextBox('inventory['.$i.'][value]', $field['value']))->setWidth(ZBX_TEXTAREA_FILTER_SMALL_WIDTH),
+		(new CCol(
+			(new CButton('inventory['.$i.'][remove]', _('Remove')))
+				->addClass(ZBX_STYLE_BTN_LINK)
+				->addClass('element-table-remove')
+		))->addClass(ZBX_STYLE_NOWRAP)
+	], 'form_row');
 
-// 	$i++;
-// }
+	$i++;
+}
 // $filter_inventory_table->addRow(
 // 	(new CCol(
 // 		(new CButton('inventory_add', _('Add')))
