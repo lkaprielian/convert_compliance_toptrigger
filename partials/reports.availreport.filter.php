@@ -1,14 +1,14 @@
 <?php declare(strict_types = 1);
 
 $filter_column = (new CFormList())
-	// ->addRow(_('Show'),
-	// 	(new CRadioButtonList('show', (int) $data['show']))
-	// 		->addValue(_('Recent problems'), TRIGGERS_OPTION_RECENT_PROBLEM, 'show_1#{uniqid}')
-	// 		->addValue(_('Problems'), TRIGGERS_OPTION_IN_PROBLEM, 'show_3#{uniqid}')
-	// 		->addValue(_('History'), TRIGGERS_OPTION_ALL, 'show_2#{uniqid}')
-	// 		->setId('show_#{uniqid}')
-	// 		->setModern(true)
-	// )
+	->addRow(_('Show'),
+		(new CRadioButtonList('show', (int) $data['show']))
+			->addValue(_('Recent problems'), TRIGGERS_OPTION_RECENT_PROBLEM, 'show_1#{uniqid}')
+			->addValue(_('Problems'), TRIGGERS_OPTION_IN_PROBLEM, 'show_3#{uniqid}')
+			->addValue(_('History'), TRIGGERS_OPTION_ALL, 'show_2#{uniqid}')
+			->setId('show_#{uniqid}')
+			->setModern(true)
+	)
 	->addRow((new CLabel(_('Host groups'), 'groupids_#{uniqid}_ms')),
 		(new CMultiSelect([
 			'name' => 'groupids[]',
