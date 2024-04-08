@@ -153,15 +153,15 @@ $filter_inventory_table->addRow(
 $filter_tags_table = new CTable();
 $filter_tags_table->setId('filter-tags_#{uniqid}');
 
-// $filter_tags_table->addRow(
-// 	(new CCol(
-// 		(new CRadioButtonList('evaltype', (int) $data['evaltype']))
-// 			->addValue(_('And/Or'), TAG_EVAL_TYPE_AND_OR, 'evaltype_0#{uniqid}')
-// 			->addValue(_('Or'), TAG_EVAL_TYPE_OR, 'evaltype_2#{uniqid}')
-// 			->setModern(true)
-// 			->setId('evaltype_#{uniqid}')
-// 	))->setColSpan(4)
-// );
+$filter_tags_table->addRow(
+	(new CCol(
+		(new CRadioButtonList('evaltype', (int) $data['evaltype']))
+			->addValue(_('And/Or'), TAG_EVAL_TYPE_AND_OR, 'evaltype_0#{uniqid}')
+			->addValue(_('Or'), TAG_EVAL_TYPE_OR, 'evaltype_2#{uniqid}')
+			->setModern(true)
+			->setId('evaltype_#{uniqid}')
+	))->setColSpan(4)
+);
 
 // $i = 0;
 // foreach ($data['tags'] as $tag) {
