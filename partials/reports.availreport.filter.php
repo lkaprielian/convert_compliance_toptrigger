@@ -163,46 +163,46 @@ $filter_tags_table->addRow(
 	))->setColSpan(4)
 );
 
-// $i = 0;
-// foreach ($data['tags'] as $tag) {
-// 	$filter_tags_table->addRow([
-// 		(new CTextBox('tags['.$i.'][tag]', $tag['tag']))
-// 			->setAttribute('placeholder', _('tag'))
-// 			->setWidth(ZBX_TEXTAREA_FILTER_SMALL_WIDTH),
-// 		(new CSelect('tags['.$i.'][operator]'))
-// 			->addOptions(CSelect::createOptionsFromArray([
-// 				TAG_OPERATOR_EXISTS => _('Exists'),
-// 				TAG_OPERATOR_EQUAL => _('Equals'),
-// 				TAG_OPERATOR_LIKE => _('Contains'),
-// 				TAG_OPERATOR_NOT_EXISTS => _('Does not exist'),
-// 				TAG_OPERATOR_NOT_EQUAL => _('Does not equal'),
-// 				TAG_OPERATOR_NOT_LIKE => _('Does not contain')
-// 			]))
-// 			->setValue($tag['operator'])
-// 			->setFocusableElementId('tags-'.$i.'#{uniqid}-operator-select')
-// 			->setId('tags_'.$i.'#{uniqid}_operator'),
-// 		(new CTextBox('tags['.$i.'][value]', $tag['value']))
-// 			->setAttribute('placeholder', _('value'))
-// 			->setWidth(ZBX_TEXTAREA_FILTER_SMALL_WIDTH)
-// 			->setId('tags_'.$i.'#{uniqid}_value'),
-// 		(new CCol(
-// 			(new CButton('tags['.$i.'][remove]', _('Remove')))
-// 				->addClass(ZBX_STYLE_BTN_LINK)
-// 				->addClass('element-table-remove')
-// 				->removeId()
-// 		))->addClass(ZBX_STYLE_NOWRAP)
-// 	], 'form_row');
+$i = 0;
+foreach ($data['tags'] as $tag) {
+	$filter_tags_table->addRow([
+		(new CTextBox('tags['.$i.'][tag]', $tag['tag']))
+			->setAttribute('placeholder', _('tag'))
+			->setWidth(ZBX_TEXTAREA_FILTER_SMALL_WIDTH),
+		(new CSelect('tags['.$i.'][operator]'))
+			->addOptions(CSelect::createOptionsFromArray([
+				TAG_OPERATOR_EXISTS => _('Exists'),
+				TAG_OPERATOR_EQUAL => _('Equals'),
+				TAG_OPERATOR_LIKE => _('Contains'),
+				TAG_OPERATOR_NOT_EXISTS => _('Does not exist'),
+				TAG_OPERATOR_NOT_EQUAL => _('Does not equal'),
+				TAG_OPERATOR_NOT_LIKE => _('Does not contain')
+			]))
+			->setValue($tag['operator'])
+			->setFocusableElementId('tags-'.$i.'#{uniqid}-operator-select')
+			->setId('tags_'.$i.'#{uniqid}_operator'),
+		(new CTextBox('tags['.$i.'][value]', $tag['value']))
+			->setAttribute('placeholder', _('value'))
+			->setWidth(ZBX_TEXTAREA_FILTER_SMALL_WIDTH)
+			->setId('tags_'.$i.'#{uniqid}_value'),
+		(new CCol(
+			(new CButton('tags['.$i.'][remove]', _('Remove')))
+				->addClass(ZBX_STYLE_BTN_LINK)
+				->addClass('element-table-remove')
+				->removeId()
+		))->addClass(ZBX_STYLE_NOWRAP)
+	], 'form_row');
 
-// 	$i++;
-// }
-// $filter_tags_table->addRow(
-// 	(new CCol(
-// 		(new CButton('tags_add', _('Add')))
-// 			->addClass(ZBX_STYLE_BTN_LINK)
-// 			->addClass('element-table-add')
-// 			->removeId()
-// 	))->setColSpan(3)
-// );
+	$i++;
+}
+$filter_tags_table->addRow(
+	(new CCol(
+		(new CButton('tags_add', _('Add')))
+			->addClass(ZBX_STYLE_BTN_LINK)
+			->addClass('element-table-add')
+			->removeId()
+	))->setColSpan(3)
+);
 
 // $tag_format_line = (new CHorList())
 // 	->addItem((new CRadioButtonList('show_tags', (int) $data['show_tags']))

@@ -44,7 +44,9 @@ abstract class CControllerBGAvailReport extends CController {
 		'show_symptoms' => 0,
 		'show_suppressed' => 0,
 		'unacknowledged' => 0,
-		'inventory' => []
+		'inventory' => [],
+		'evaltype' => TAG_EVAL_TYPE_AND_OR,
+		'tags' => []
 	];
 
 	protected function getData(array $filter): array {

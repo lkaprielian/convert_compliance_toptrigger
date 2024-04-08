@@ -45,7 +45,9 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 			'show_symptoms' =>			'in 0,1',
 			'show_suppressed' =>		'in 0,1',
 			'unacknowledged' =>			'in 0,1',
-			'inventory' =>				'array'
+			'inventory' =>				'array',
+			'evaltype' =>				'in '.TAG_EVAL_TYPE_AND_OR.','.TAG_EVAL_TYPE_OR,
+			'tags' =>					'array'
 		];
 		$ret = $this->validateInput($fields) && $this->validateTimeSelectorPeriod();
 
