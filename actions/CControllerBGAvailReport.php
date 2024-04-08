@@ -29,7 +29,7 @@ abstract class CControllerBGAvailReport extends CController {
 		'templateids' => [],
 		'tpl_triggerids' => [],
 		'triggerids' => [],
-		'hostgroupids' => [],
+		'groupids' => [],
 		'hostids' => [],
 		'only_with_problems' => 1,
         'page' => null,
@@ -54,15 +54,14 @@ abstract class CControllerBGAvailReport extends CController {
 		'highlight_row' => 0,
 		'show_opdata' => OPERATIONAL_DATA_SHOW_NONE,
 		'tag_name_format' => TAG_NAME_FULL,
-		'tag_priority' => ''
-		// 'groupids' =>				'array_id',
+		'tag_priority' => '',
 		// 'hostids' =>				'array_id',
 		// 'triggerids' =>				'array_id',
 	];
 
 	protected function getData(array $filter): array {
 
-		$host_group_ids = sizeof($filter['hostgroupids']) > 0 ? $this->getChildGroups($filter['hostgroupids']) : null;
+		$host_group_ids = sizeof($filter['groupids']) > 0 ? $this->getChildGroups($filter['groupids']) : null;
 
 		$generating_csv_flag = 1;
 		if (!array_key_exists('action_from_url', $filter) ||
@@ -270,10 +269,10 @@ abstract class CControllerBGAvailReport extends CController {
 			$data['triggers'] = $triggers;
 		}
 
-		if ($filter['hostgroupids']) {
+		if ($filter['groupids']) {
 			$hostgroups = API::HostGroup()->get([
 				'output' => ['groupid', 'name'],
-				'groupids' => $filter['hostgroupids']
+				'groupids' => $filter['groupids']
 			]);
 			$data['hostgroups_multiselect'] = CArrayHelper::renameObjectsKeys(array_values($hostgroups), ['groupid' => 'id']);
 		}
