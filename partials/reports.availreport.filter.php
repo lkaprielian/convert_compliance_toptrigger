@@ -102,25 +102,25 @@ $left_column
 		$filter_age,
 		(new CDiv())->addClass(ZBX_STYLE_FORM_INPUT_MARGIN),
 		_('days')
+	])
+	->addRow(_('Show symptoms'), [
+		(new CCheckBox('show_symptoms'))
+			->setChecked($data['show_symptoms'] == 1)
+			->setUncheckedValue(0)
+			->setId('show_symptoms_#{uniqid}')
+	])
+	->addRow(_('Show suppressed problems'), [
+		(new CCheckBox('show_suppressed'))
+			->setChecked($data['show_suppressed'] == ZBX_PROBLEM_SUPPRESSED_TRUE)
+			->setUncheckedValue(0)
+			->setId('show_suppressed_#{uniqid}')
+	])
+	->addRow(_('Show unacknowledged only'), [
+		(new CCheckBox('unacknowledged'))
+			->setChecked($data['unacknowledged'] == 1)
+			->setUncheckedValue(0)
+			->setId('unacknowledged_#{uniqid}')
 	]);
-// 	->addRow(_('Show symptoms'), [
-// 		(new CCheckBox('show_symptoms'))
-// 			->setChecked($data['show_symptoms'] == 1)
-// 			->setUncheckedValue(0)
-// 			->setId('show_symptoms_#{uniqid}')
-// 	])
-// 	->addRow(_('Show suppressed problems'), [
-// 		(new CCheckBox('show_suppressed'))
-// 			->setChecked($data['show_suppressed'] == ZBX_PROBLEM_SUPPRESSED_TRUE)
-// 			->setUncheckedValue(0)
-// 			->setId('show_suppressed_#{uniqid}')
-// 	])
-// 	->addRow(_('Show unacknowledged only'), [
-// 		(new CCheckBox('unacknowledged'))
-// 			->setChecked($data['unacknowledged'] == 1)
-// 			->setUncheckedValue(0)
-// 			->setId('unacknowledged_#{uniqid}')
-// 	]);
 
 // $filter_inventory_table = new CTable();
 // $filter_inventory_table->setId('filter-inventory_#{uniqid}');

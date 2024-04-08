@@ -41,7 +41,10 @@ class CControllerBGAvailReportView extends CControllerBGAvailReport {
 			'show' =>					'in '.TRIGGERS_OPTION_RECENT_PROBLEM.','.TRIGGERS_OPTION_IN_PROBLEM.','.TRIGGERS_OPTION_ALL,
 			'severities' =>				'array',
 			'age_state' =>				'in 0,1',
-			'age' =>					'int32'
+			'age' =>					'int32',
+			'show_symptoms' =>			'in 0,1',
+			'show_suppressed' =>		'in 0,1',
+			'unacknowledged' =>			'in 0,1'
 		];
 		$ret = $this->validateInput($fields) && $this->validateTimeSelectorPeriod();
 

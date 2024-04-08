@@ -40,7 +40,10 @@ abstract class CControllerBGAvailReport extends CController {
 		'show' => TRIGGERS_OPTION_RECENT_PROBLEM,
 		'severities' => [],
 		'age_state' => 0,
-		'age' => 14
+		'age' => 14,
+		'show_symptoms' => 0,
+		'show_suppressed' => 0,
+		'unacknowledged' => 0
 	];
 
 	protected function getData(array $filter): array {
