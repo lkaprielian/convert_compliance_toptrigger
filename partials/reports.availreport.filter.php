@@ -87,25 +87,25 @@ $filter_column = (new CFormList())
 	// 		->setId('triggerids_#{uniqid}')
 	// )
 	
-	->addRow((new CLabel(_('Host groups'), 'groupids_#{uniqid}_ms')),
-		(new CMultiSelect([
-			'name' => 'hostgroupids[]',
-			'object_name' => 'hostGroup',
-			'data' => array_key_exists('hostgroups_multiselect', $data) ? $data['hostgroups_multiselect'] : [],
-			'popup' => [
-				'parameters' => [
-					'srctbl' => 'host_groups',
-					'srcfld1' => 'groupid',
-					'dstfrm' => 'zbx_filter',
-					'dstfld1' => 'hostgroupids_',
-					'real_hosts' => true,
-					'enrich_parent_groups' => true
-				]
-			]
-		]))
-			->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
-			->setId('hostgroupids_#{uniqid}')
-	)
+	// ->addRow((new CLabel(_('Host groups'), 'groupids_#{uniqid}_ms')),
+	// 	(new CMultiSelect([
+	// 		'name' => 'hostgroupids[]',
+	// 		'object_name' => 'hostGroup',
+	// 		'data' => array_key_exists('hostgroups_multiselect', $data) ? $data['hostgroups_multiselect'] : [],
+	// 		'popup' => [
+	// 			'parameters' => [
+	// 				'srctbl' => 'host_groups',
+	// 				'srcfld1' => 'groupid',
+	// 				'dstfrm' => 'zbx_filter',
+	// 				'dstfld1' => 'hostgroupids_',
+	// 				'real_hosts' => true,
+	// 				'enrich_parent_groups' => true
+	// 			]
+	// 		]
+	// 	]))
+	// 		->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
+	// 		->setId('hostgroupids_#{uniqid}')
+	// )
 	->addRow((new CLabel(_('Hosts'), 'hostids_#{uniqid}_ms')),
 		(new CMultiSelect([
 			'name' => 'hostids[]',
@@ -230,72 +230,72 @@ if (array_key_exists('render_html', $data)) {
 		// 	}
 		// });
 
-		// Template triggers multiselect.
-		$('#tpl_triggerids_' + data.uniqid, container).multiSelectHelper({
-			id: 'tpl_triggerids_' + data.uniqid,
-			object_name: 'templates',
-			name: 'tpl_triggerids[]',
-			data: data.filter_view_data.tpl_triggers_multiselect || [],
-			popup: {
-				// filter_preselect: {
-				// 	id: 'templateids_' + data.uniqid,
-				// 	submit_as: 'templateid'
-				// },
-				parameters: {
-					multiselect: '1',
-					srctbl: 'template_triggers',
-					srcfld1: 'triggerid',
-					dstfrm: 'zbx_filter',
-					dstfld1: 'tpl_triggerids_' + data.uniqid
-				}
-			}
-		});
+		// // Template triggers multiselect.
+		// $('#tpl_triggerids_' + data.uniqid, container).multiSelectHelper({
+		// 	id: 'tpl_triggerids_' + data.uniqid,
+		// 	object_name: 'templates',
+		// 	name: 'tpl_triggerids[]',
+		// 	data: data.filter_view_data.tpl_triggers_multiselect || [],
+		// 	popup: {
+		// 		// filter_preselect: {
+		// 		// 	id: 'templateids_' + data.uniqid,
+		// 		// 	submit_as: 'templateid'
+		// 		// },
+		// 		parameters: {
+		// 			multiselect: '1',
+		// 			srctbl: 'template_triggers',
+		// 			srcfld1: 'triggerid',
+		// 			dstfrm: 'zbx_filter',
+		// 			dstfld1: 'tpl_triggerids_' + data.uniqid
+		// 		}
+		// 	}
+		// });
 
-		// Triggers multiselect.
-		$('#triggerids_' + data.uniqid, container).multiSelectHelper({
-			id: 'triggerids_' + data.uniqid,
-			object_name: 'triggers',
-			name: 'triggerids[]',
-			data: data.filter_view_data.triggers || [],
-			popup: {
-				filter_preselect: {
-					id: 'hostids_' + data.uniqid,
-					submit_as: 'hostid'
-				},
-				parameters: {
-					srctbl: 'triggers',
-					srcfld1: 'triggerid',
-					dstfrm: 'zbx_filter',
-					dstfld1: 'triggerids_' + data.uniqid,
-					multiselect: 1,
-					monitored_hosts: 1,
-					with_monitored_triggers: 1
-				}
-			}
-		});
+		// // Triggers multiselect.
+		// $('#triggerids_' + data.uniqid, container).multiSelectHelper({
+		// 	id: 'triggerids_' + data.uniqid,
+		// 	object_name: 'triggers',
+		// 	name: 'triggerids[]',
+		// 	data: data.filter_view_data.triggers || [],
+		// 	popup: {
+		// 		filter_preselect: {
+		// 			id: 'hostids_' + data.uniqid,
+		// 			submit_as: 'hostid'
+		// 		},
+		// 		parameters: {
+		// 			srctbl: 'triggers',
+		// 			srcfld1: 'triggerid',
+		// 			dstfrm: 'zbx_filter',
+		// 			dstfld1: 'triggerids_' + data.uniqid,
+		// 			multiselect: 1,
+		// 			monitored_hosts: 1,
+		// 			with_monitored_triggers: 1
+		// 		}
+		// 	}
+		// });
 
-		// Host groups multiselect.
-		$('#hostgroupids_' + data.uniqid, container).multiSelectHelper({
-			id: 'hostgroupids_' + data.uniqid,
-			object_name: 'hostGroup',
-			name: 'hostgroupids[]',
-			data: data.filter_view_data.hostgroups_multiselect || [],
-			objectOptions: {
-				real_hosts: 1,
-				enrich_parent_groups: 1
-			},
-			popup: {
-				parameters: {
-					multiselect: '1',
-					srctbl: 'host_groups',
-					srcfld1: 'groupid',
-					dstfrm: 'zbx_filter',
-					dstfld1: 'hostgroupids_' + data.uniqid,
-					real_hosts: 1,
-					enrich_parent_groups: 1
-				}
-			}
-		});
+		// // Host groups multiselect.
+		// $('#hostgroupids_' + data.uniqid, container).multiSelectHelper({
+		// 	id: 'hostgroupids_' + data.uniqid,
+		// 	object_name: 'hostGroup',
+		// 	name: 'hostgroupids[]',
+		// 	data: data.filter_view_data.hostgroups_multiselect || [],
+		// 	objectOptions: {
+		// 		real_hosts: 1,
+		// 		enrich_parent_groups: 1
+		// 	},
+		// 	popup: {
+		// 		parameters: {
+		// 			multiselect: '1',
+		// 			srctbl: 'host_groups',
+		// 			srcfld1: 'groupid',
+		// 			dstfrm: 'zbx_filter',
+		// 			dstfld1: 'hostgroupids_' + data.uniqid,
+		// 			real_hosts: 1,
+		// 			enrich_parent_groups: 1
+		// 		}
+		// 	}
+		// });
 
 		// Hosts multiselect.
 		$('#hostids_' + data.uniqid, container).multiSelectHelper({
