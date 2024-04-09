@@ -20,12 +20,12 @@
 
 namespace Modules\LMFR\Actions;
 
-use CController;
-use CControllerHost;
-use CControllerProblem;
-use CControllerResponseData;
-use CSettingsHelper;
-use CTabFilterProfile;
+// use CController;
+// use CControllerHost;
+// use CControllerProblem;
+// use CControllerResponseData;
+// use CSettingsHelper;
+// use CTabFilterProfile;
 
 /**
  * Controller to update tab filter. Handles following events:
