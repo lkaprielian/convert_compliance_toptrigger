@@ -21,6 +21,10 @@
       "class": "CControllerBGAvailReportView",
       "view": "module.reports.availreport.view",
       "layout": "layout.csv"
+    },
+    "bgprofile.update": {
+      "class": "CControllerBGProfileUpdate",
+      "layout": "layout.json"
     }
   }
 }
