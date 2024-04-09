@@ -37,34 +37,20 @@ if ($data['action'] == 'availreport.view') {
 
 		// Set javascript options for tab filter initialization in module.reports.availreport.js.php file.
 		$data['filter_options'] = $filter->options;
-		// $widget->addItem($filter);
-		$html_page->addItem($filter);
+		$widget->addItem($filter);
 	}
 	else {
 		$data['filter_options'] = null;
 	}
 
-	// $widget->addItem((new CForm())->setName('availreport_view')->addClass('is-loading'));
-	// $widget->show();
-
-	$html_page
-	->addItem(new CPartial('monitoring.problem.view.html', array_intersect_key($data,
-		array_flip(['page', 'action', 'sort', 'sortorder', 'filter', 'tabfilter_idx'])
-	)))
-	->show();
+	$widget->addItem((new CForm())->setName('availreport_view')->addClass('is-loading'));
+	$widget->show();
 	
 	$this->includeJsFile('module.reports.availreport.js.php', $data);
 
 
-	(new CScriptTag('
-		view.init('.json_encode([
-			'filter_options' => $data['filter_options'],
-			'refresh_url' => $data['refresh_url'],
-			'refresh_interval' => $data['refresh_interval'],
-			'filter_defaults' => $data['filter_defaults']
-		]).');
-	'))
-		->setOnDocumentReady()
+	(new CScriptTag('availreport_page.start();'))
+	->setOnDocumentReady()
 		->show();
 
 } else {
