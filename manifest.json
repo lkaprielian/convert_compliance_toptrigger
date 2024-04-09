@@ -1,0 +1,31 @@
+{
+  "manifest_version": 2.0,
+  "id": "recurrence",
+  "name": "Recurrence",
+  "version": "1.0.0",
+  "namespace": "LMFR",
+  "author": "Leroy Merlin",
+  "description": "Recurrence improvementes",
+  "actions": {
+    "availreport.view": {
+      "class": "CControllerBGAvailReportView",
+      "view": "module.reports.availreport.view",
+      "layout": "layout.htmlpage"
+    },
+    "availreport.view.refresh": {
+      "class": "CControllerBGAvailReportViewRefresh",
+      "view": "module.reports.availreport.view.refresh",
+      "layout": "layout.json"
+    },
+    "availreport.view.csv": {
+      "class": "CControllerBGAvailReportView",
+      "view": "module.reports.availreport.view",
+      "layout": "layout.csv"
+    },
+    "tabfilter.profile.update": {
+      "class": "CControllerBGTabFilterProfileUpdate",
+      "view": null,
+      "layout": "layout.json"
+    }
+  }
+}
