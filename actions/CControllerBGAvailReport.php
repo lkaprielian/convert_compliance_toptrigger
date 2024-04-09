@@ -14,11 +14,11 @@ use CWebUser;
 abstract class CControllerBGAvailReport extends CController {
 
 	// Filter idx prefix.
-	const FILTER_IDX = 'web.lisa.filter';
+	const FILTER_IDX = 'web.toptriggers.filter';
 	// Filter fields default values.
 	const FILTER_FIELDS_DEFAULT = [
 		'name' => '',
-		'mode' => AVAILABILITY_REPORT_BY_HOST,
+		'mode' => AVAILABILITY_REPORT_BY_TEMPLATE,
 		'tpl_groupids' => [],
 		'templateids' => [],
 		'tpl_triggerids' => [],
