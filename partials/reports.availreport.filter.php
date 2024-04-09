@@ -106,24 +106,25 @@ $filter_column = (new CFormList())
 	// 		->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
 	// 		->setId('hostgroupids_#{uniqid}')
 	// )
-	->addRow((new CLabel(_('Hosts'), 'hostids_#{uniqid}_ms')),
-		(new CMultiSelect([
-			'name' => 'hostids[]',
-			'object_name' => 'hosts',
-			'data' => array_key_exists('hosts_multiselect', $data) ? $data['hosts_multiselect'] : [],
-			'popup' => [
-				'parameters' => [
-					'srctbl' => 'hosts',
-					'srcfld1' => 'hostid',
-					'dstfrm' => 'zbx_filter',
-					'dstfld1' => 'hostids_',
-					'real_hosts' => true
-				]
-			]
-		]))
-			->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
-			->setId('hostids_#{uniqid}')
-				);
+	// ->addRow((new CLabel(_('Hosts'), 'hostids_#{uniqid}_ms')),
+	// 	(new CMultiSelect([
+	// 		'name' => 'hostids[]',
+	// 		'object_name' => 'hosts',
+	// 		'data' => array_key_exists('hosts_multiselect', $data) ? $data['hosts_multiselect'] : [],
+	// 		'popup' => [
+	// 			'parameters' => [
+	// 				'srctbl' => 'hosts',
+	// 				'srcfld1' => 'hostid',
+	// 				'dstfrm' => 'zbx_filter',
+	// 				'dstfld1' => 'hostids_',
+	// 				'real_hosts' => true
+	// 			]
+	// 		]
+	// 	]))
+	// 		->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
+	// 		->setId('hostids_#{uniqid}')
+	// 			)
+	;
 	// ->addRow(_('Show only hosts with problems'),
 	// 	(new CCheckBox('only_with_problems'))
 	// 		->setChecked($data['only_with_problems'] == 1)
@@ -297,26 +298,27 @@ if (array_key_exists('render_html', $data)) {
 		// 	}
 		// });
 
-		// Hosts multiselect.
-		$('#hostids_' + data.uniqid, container).multiSelectHelper({
-			id: 'hostids_' + data.uniqid,
-			object_name: 'hosts',
-			name: 'hostids[]',
-			data: data.filter_view_data.hosts_multiselect || [],
-			objectOptions: {
-				real_hosts: 1
-			},
-			popup: {
-				parameters: {
-					multiselect: '1',
-					srctbl: 'hosts',
-					srcfld1: 'hostid',
-					dstfrm: 'zbx_filter',
-					dstfld1: 'hostids_' + data.uniqid,
-					real_hosts: 1
-				}
-			}
-		});
+		// // Hosts multiselect.
+		// $('#hostids_' + data.uniqid, container).multiSelectHelper({
+		// 	id: 'hostids_' + data.uniqid,
+		// 	object_name: 'hosts',
+		// 	name: 'hostids[]',
+		// 	data: data.filter_view_data.hosts_multiselect || [],
+		// 	objectOptions: {
+		// 		real_hosts: 1
+		// 	},
+		// 	popup: {
+		// 		parameters: {
+		// 			multiselect: '1',
+		// 			srctbl: 'hosts',
+		// 			srcfld1: 'hostid',
+		// 			dstfrm: 'zbx_filter',
+		// 			dstfld1: 'hostids_' + data.uniqid,
+		// 			real_hosts: 1
+		// 		}
+		// 	}
+		// })
+		;
 
 		// let only_with_problems_checkbox = $('[name="only_with_problems"]');
 		// if (only_with_problems_checkbox.attr('unchecked-value') === data['only_with_problems']) {
