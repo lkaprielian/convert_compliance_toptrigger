@@ -43,24 +43,25 @@ $filter_column = (new CFormList())
 	// 		->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
 	// 		->setId('templateids_#{uniqid}')
 	// )
-	->addRow((new CLabel(_('Template trigger'), 'tpl_triggerids_#{uniqid}_ms')),
-		(new CMultiSelect([
-			'name' => 'tpl_triggerids[]',
-			'object_name' => 'triggers',
-			'data' => array_key_exists('tpl_triggers_multiselect', $data) ? $data['tpl_triggers_multiselect'] : [],
-			'popup' => [
-				'parameters' => [
-					'srctbl' => 'template_triggers',
-					'srcfld1' => 'triggerid',
-					'dstfrm' => 'zbx_filter',
-					'dstfld1' => 'tpl_triggerids_'		
-					// 'templateid' => '4'
-				]
-			]
-		]))
-			->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
-			->setId('tpl_triggerids_#{uniqid}')
-	)
+	######
+	// ->addRow((new CLabel(_('Template trigger'), 'tpl_triggerids_#{uniqid}_ms')),
+	// 	(new CMultiSelect([
+	// 		'name' => 'tpl_triggerids[]',
+	// 		'object_name' => 'triggers',
+	// 		'data' => array_key_exists('tpl_triggers_multiselect', $data) ? $data['tpl_triggers_multiselect'] : [],
+	// 		'popup' => [
+	// 			'parameters' => [
+	// 				'srctbl' => 'template_triggers',
+	// 				'srcfld1' => 'triggerid',
+	// 				'dstfrm' => 'zbx_filter',
+	// 				'dstfld1' => 'tpl_triggerids_'		
+	// 				// 'templateid' => '4'
+	// 			]
+	// 		]
+	// 	]))
+	// 		->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
+	// 		->setId('tpl_triggerids_#{uniqid}')
+	// )
 
 	->addRow((new CLabel(_('Host trigger'), 'triggerids_#{uniqid}_ms')),
 		(new CMultiSelect([
@@ -184,28 +185,28 @@ if (array_key_exists('render_html', $data)) {
 		$('[name="filter_new"],[name="filter_update"]').hide()
 			.filter(data.filter_configurable ? '[name="filter_update"]' : '[name="filter_new"]').show();
 
-		// Template groups multiselect.
-		$('#tpl_groupids_' + data.uniqid, container).multiSelectHelper({
-			id: 'tpl_groupids_' + data.uniqid,
-			object_name: 'hostGroup',
-			name: 'tpl_groupids[]',
-			data: data.filter_view_data.tpl_groups_multiselect || [],
-			objectOptions: {
-				enrich_parent_groups: 1
-			},
-			selectedLimit: 1,
-			popup: {
-				parameters: {
-					srctbl: 'template_groups',
-					srcfld1: 'groupid',
-					dstfrm: 'zbx_filter',
-					dstfld1: 'tpl_groupids_' + data.uniqid,
-					with_templates: 1,
-					editable: 1,
-					enrich_parent_groups: 1
-				}
-			}
-		});
+		// // Template groups multiselect.
+		// $('#tpl_groupids_' + data.uniqid, container).multiSelectHelper({
+		// 	id: 'tpl_groupids_' + data.uniqid,
+		// 	object_name: 'hostGroup',
+		// 	name: 'tpl_groupids[]',
+		// 	data: data.filter_view_data.tpl_groups_multiselect || [],
+		// 	objectOptions: {
+		// 		enrich_parent_groups: 1
+		// 	},
+		// 	selectedLimit: 1,
+		// 	popup: {
+		// 		parameters: {
+		// 			srctbl: 'template_groups',
+		// 			srcfld1: 'groupid',
+		// 			dstfrm: 'zbx_filter',
+		// 			dstfld1: 'tpl_groupids_' + data.uniqid,
+		// 			with_templates: 1,
+		// 			editable: 1,
+		// 			enrich_parent_groups: 1
+		// 		}
+		// 	}
+		// });
 
 		// Templates multiselect.
 		$('#templateids_' + data.uniqid, container).multiSelectHelper({
