@@ -325,9 +325,9 @@ if (array_key_exists('render_html', $data)) {
 		// 	only_with_problems_checkbox.removeAttr('checked');
 		// }
 
-		// Initialize src_url.
-		this.resetUnsavedState();
-		this.on(TABFILTERITEM_EVENT_ACTION, update.bind(this));
+		// // Initialize src_url.
+		// this.resetUnsavedState();
+		// this.on(TABFILTERITEM_EVENT_ACTION, update.bind(this));
 	}
 
 	function expand(data, container) {
