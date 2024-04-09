@@ -182,9 +182,9 @@ if (array_key_exists('render_html', $data)) {
 	let template = document.querySelector('[data-template="reports.availreport.filter"]');
 
 	function render(data, container) {
-		// "Save as" can contain only home tab, also home tab cannot contain "Update" button.
-		$('[name="filter_new"],[name="filter_update"]').hide()
-			.filter(data.filter_configurable ? '[name="filter_update"]' : '[name="filter_new"]').show();
+		// // "Save as" can contain only home tab, also home tab cannot contain "Update" button.
+		// $('[name="filter_new"],[name="filter_update"]').hide()
+		// 	.filter(data.filter_configurable ? '[name="filter_update"]' : '[name="filter_new"]').show();
 
 		// // Template groups multiselect.
 		// $('#tpl_groupids_' + data.uniqid, container).multiSelectHelper({
