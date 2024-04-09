@@ -129,7 +129,7 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 				break;
 		}
 
-		$filter->update();
+		// $filter->update();
 
 		$data += [
 			'property' => $property,
