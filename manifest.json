@@ -23,7 +23,7 @@
       "layout": "layout.csv"
     },
     "tabfilter.profile.update": {
-      "class": "CControllerTabFilterProfileUpdate",
+      "class": "CControllerBGTabFilterProfileUpdate",
       "view": null,
       "layout": "layout.json"
     }
