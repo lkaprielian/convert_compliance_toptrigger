@@ -43,6 +43,7 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 		CControllerBGAvailReport::FILTER_IDX => CControllerBGAvailReport::FILTER_FIELDS_DEFAULT
 	];
 
+	
 	protected function checkPermissions() {
 		return ($this->getUserType() >= USER_TYPE_ZABBIX_USER);
 	}
