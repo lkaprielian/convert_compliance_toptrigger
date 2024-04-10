@@ -37,10 +37,10 @@ namespace Modules\LMFR\Actions;
 class CControllerBGTabFilterProfileUpdate extends CController {
 
 	public static $namespaces = [
-		CControllerHost::FILTER_IDX => CControllerHost::FILTER_FIELDS_DEFAULT,
-		CControllerProblem::FILTER_IDX => CControllerProblem::FILTER_FIELDS_DEFAULT,
-		CControllerLatest::FILTER_IDX => CControllerLatest::FILTER_FIELDS_DEFAULT
-		// CControllerBGAvailReport::FILTER_IDX => CControllerBGAvailReport::FILTER_FIELDS_DEFAULT
+		// CControllerHost::FILTER_IDX => CControllerHost::FILTER_FIELDS_DEFAULT,
+		// CControllerProblem::FILTER_IDX => CControllerProblem::FILTER_FIELDS_DEFAULT,
+		// CControllerLatest::FILTER_IDX => CControllerLatest::FILTER_FIELDS_DEFAULT
+		CControllerBGAvailReport::FILTER_IDX => CControllerBGAvailReport::FILTER_FIELDS_DEFAULT
 	];
 
 	
