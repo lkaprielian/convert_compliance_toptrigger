@@ -50,14 +50,14 @@ class CControllerBGTabFilterProfileUpdate extends CController {
 
 	protected function checkInput() {
 		$fields = [
-			// 'idx' =>		'required|string',
-			// 'value_int' =>	'int32',
-			// 'value_str' =>	'string',
-			// 'idx2' =>		'id'
 			'idx' =>		'required|string',
-			'value_int' =>		'required|int32',
-			'idx2' =>		'array_id',
-			'value_str' =>		'array'
+			'value_int' =>	'int32',
+			'value_str' =>	'string',
+			'idx2' =>		'id'
+			// 'idx' =>		'required|string',
+			// 'value_int' =>		'required|int32',
+			// 'idx2' =>		'array_id',
+			// 'value_str' =>		'array'
 		];
 
 		$ret = $this->validateInput($fields);
