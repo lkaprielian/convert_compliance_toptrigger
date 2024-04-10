@@ -22,8 +22,8 @@
       "view": "module.reports.availreport.view",
       "layout": "layout.csv"
     },
-    "profile.update": {
-      "class": "CControllerProfileUpdate",
+    "tabfilter.profile.update": {
+      "class": "CControllerTabFilterProfileUpdate",
       "view": null,
       "layout": "layout.json"
     }
