@@ -88,7 +88,7 @@ $filter_column = (new CFormList())
 	
 	->addRow((new CLabel(_('Host groups'), 'groupids_#{uniqid}_ms')),
 		(new CMultiSelect([
-			'name' => 'hostgroupids[]',
+			'name' => 'groupids[]',
 			'object_name' => 'hostGroup',
 			'data' => array_key_exists('hostgroups_multiselect', $data) ? $data['hostgroups_multiselect'] : [],
 			'popup' => [
@@ -96,14 +96,14 @@ $filter_column = (new CFormList())
 					'srctbl' => 'host_groups',
 					'srcfld1' => 'groupid',
 					'dstfrm' => 'zbx_filter',
-					'dstfld1' => 'hostgroupids_',
+					'dstfld1' => 'groupids_',
 					'real_hosts' => true,
 					'enrich_parent_groups' => true
 				]
 			]
 		]))
 			->setWidth(ZBX_TEXTAREA_FILTER_STANDARD_WIDTH)
-			->setId('hostgroupids_#{uniqid}')
+			->setId('groupids_#{uniqid}')
 	)
 	->addRow((new CLabel(_('Hosts'), 'hostids_#{uniqid}_ms')),
 		(new CMultiSelect([
@@ -274,10 +274,10 @@ if (array_key_exists('render_html', $data)) {
 		});
 
 		// Host groups multiselect.
-		$('#hostgroupids_' + data.uniqid, container).multiSelectHelper({
-			id: 'hostgroupids_' + data.uniqid,
+		$('#groupids_' + data.uniqid, container).multiSelectHelper({
+			id: 'groupids_' + data.uniqid,
 			object_name: 'hostGroup',
-			name: 'hostgroupids[]',
+			name: 'groupids[]',
 			data: data.filter_view_data.hostgroups_multiselect || [],
 			objectOptions: {
 				real_hosts: 1,
@@ -289,7 +289,7 @@ if (array_key_exists('render_html', $data)) {
 					srctbl: 'host_groups',
 					srcfld1: 'groupid',
 					dstfrm: 'zbx_filter',
-					dstfld1: 'hostgroupids_' + data.uniqid,
+					dstfld1: 'groupids_' + data.uniqid,
 					real_hosts: 1,
 					enrich_parent_groups: 1
 				}
